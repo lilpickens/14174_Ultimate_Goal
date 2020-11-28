@@ -23,7 +23,7 @@ import java.util.List;
 /*
  * This is an example of a more complex path to really test the tuning.
  */
-@Autonomous(group = "14174")
+@Autonomous(name = "Blue_Auto", group = "14174")
 public class RRTest extends LinearOpMode {
     private ElapsedTime runtime = new ElapsedTime();
     private static final String TFOD_MODEL_ASSET = "UltimateGoal.tflite";

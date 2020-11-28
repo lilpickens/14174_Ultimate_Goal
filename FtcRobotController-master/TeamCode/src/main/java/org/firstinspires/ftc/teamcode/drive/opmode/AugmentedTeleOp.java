@@ -39,7 +39,7 @@ import org.firstinspires.ftc.teamcode.drive.SampleMecanumDrive;
  * <p>
  * This sample utilizes the SampleMecanumDriveCancelable.java class.
  */
-@TeleOp(group = "advanced")
+@TeleOp(name = "TeleOp Blue", group = "14174")
 public class AugmentedTeleOp extends LinearOpMode {
     // Define 2 states, drive control or automatic control
     enum Mode {
