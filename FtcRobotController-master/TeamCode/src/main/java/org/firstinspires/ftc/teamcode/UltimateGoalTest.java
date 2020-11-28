@@ -27,7 +27,7 @@ import java.util.List;
 import java.util.Locale;
 
 @Autonomous(name= "UltGoal_Test", group="14174")
-//@Disabled//comment out this line before using
+@Disabled  //comment out this line before using
 public class UltimateGoalTest extends LinearOpMode {
     private ElapsedTime runtime = new ElapsedTime();
     private static final String TFOD_MODEL_ASSET = "UltimateGoal.tflite";

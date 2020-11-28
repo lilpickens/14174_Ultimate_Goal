@@ -63,7 +63,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
 */
 
 @TeleOp(name="GoalTeleop", group="14174")
-//@Disabled
+@Disabled
 public class UltGoal_TeleOp extends LinearOpMode {
 
     public static final String TAG = "Vuforia VuMark Sample";
