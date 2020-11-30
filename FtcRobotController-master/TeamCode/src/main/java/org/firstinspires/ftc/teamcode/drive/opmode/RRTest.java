@@ -19,6 +19,7 @@ import org.firstinspires.ftc.teamcode.UltGoal_Hardware;
 import org.firstinspires.ftc.teamcode.drive.SampleMecanumDrive;
 
 import java.util.List;
+import java.util.Vector;
 
 /*
  * This is an example of a more complex path to really test the tuning.
@@ -69,6 +70,7 @@ public class RRTest extends LinearOpMode {
 
         if (isStopRequested()) return;
         //UNIVERSAL TRAJECTORIES
+        /*
         Trajectory traj1 = drive.trajectoryBuilder(startPose)
                 .splineTo(new Vector2d(-15,20),Math.toRadians(0))
                 .build();
@@ -77,6 +79,16 @@ public class RRTest extends LinearOpMode {
                 .build();
         Trajectory traj3 = drive.trajectoryBuilder(traj2.end())
                 .strafeRight(7.5)
+                .build();
+         */
+        Trajectory traj1 = drive.trajectoryBuilder(startPose)
+                .splineTo(new Vector2d(-3,5),Math.toRadians(0))
+                .build();
+        Trajectory traj2 = drive.trajectoryBuilder(traj1.end())
+                .strafeLeft(7.5)
+                .build();
+        Trajectory traj3 = drive.trajectoryBuilder(traj2.end())
+                .strafeLeft(7.5)
                 .build();
 
         //NO RING TRAJECTORIES
@@ -98,6 +110,7 @@ public class RRTest extends LinearOpMode {
                 .build();
 
         //SINGLE STACK TRAJECTORIES
+        /*
         Trajectory traj14 = drive.trajectoryBuilder(traj3.end())
                 .splineTo(new Vector2d(30, 24), Math.toRadians(0))
                 .build();
@@ -114,6 +127,27 @@ public class RRTest extends LinearOpMode {
                 .build();
         Trajectory traj18 = drive.trajectoryBuilder(traj17.end())
                 .lineTo(new Vector2d(6, 24))
+                .build();
+         */
+        Trajectory traj14 = drive.trajectoryBuilder(traj3.end())
+                .splineTo(new Vector2d(42, 25), Math.toRadians(0))
+                .build();
+        Trajectory traj15 = drive.trajectoryBuilder(traj14.end())
+                .splineToSplineHeading(new Pose2d(11, 23, Math.toRadians(180)), Math.toRadians(180))
+                .splineToConstantHeading(new Vector2d(-15, 35), Math.toRadians(180))
+                .build();
+        Trajectory traj16 = drive.trajectoryBuilder(traj15.end())
+                .splineToLinearHeading(new Pose2d(-65, 32, Math.toRadians(0)), Math.toRadians(0))
+                .splineToConstantHeading(new Vector2d(-65, 42), Math.toRadians(90))
+                .build();
+        Trajectory traj17 = drive.trajectoryBuilder(traj16.end())
+                .splineTo(new Vector2d(-3, 36), Math.toRadians(0))
+                .build();
+        Trajectory traj18 = drive.trajectoryBuilder(traj17.end())
+                .splineTo(new Vector2d(36, 25), Math.toRadians(0))
+                .build();
+        Trajectory traj19 = drive.trajectoryBuilder(traj18.end())
+                .lineTo(new Vector2d(6, 25))
                 .build();
 
         //QUAD STACK TRAJECTORIES
@@ -191,6 +225,7 @@ public class RRTest extends LinearOpMode {
             stop();
         }
         else if (ringState == 1) {
+            /*
             drive.followTrajectory(traj1);
             sleep(200);
             drive.followTrajectory(traj2);
@@ -207,6 +242,7 @@ public class RRTest extends LinearOpMode {
             drive.followTrajectory(traj18);
             PoseStorage.currentPose = drive.getPoseEstimate();
             stop();
+             */
         }
         else if(ringState == 4) {
             drive.followTrajectory(traj1);
