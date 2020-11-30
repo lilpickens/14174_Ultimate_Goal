@@ -9,6 +9,7 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 
+import org.firstinspires.ftc.teamcode.UltGoal_Hardware;
 import org.firstinspires.ftc.teamcode.drive.DriveConstants;
 import org.firstinspires.ftc.teamcode.drive.opmode.PoseStorage;
 import org.firstinspires.ftc.teamcode.drive.SampleMecanumDrive;
@@ -65,11 +66,14 @@ public class AugmentedTeleOp extends LinearOpMode {
     // The location we want the bot to automatically go to when we press the B button
     Vector2d targetBVector = new Vector2d(-5, 17);
 
+    double angle = 0;
+
 
     @Override
     public void runOpMode() throws InterruptedException {
         // Initialize custom cancelable SampleMecanumDrive class
         SampleMecanumDrive drive = new SampleMecanumDrive(hardwareMap);
+        UltGoal_Hardware robot = new UltGoal_Hardware();
         headingController.setInputBounds(-Math.PI, Math.PI);
         Pose2d driveDirection = new Pose2d();
 
@@ -128,9 +132,6 @@ public class AugmentedTeleOp extends LinearOpMode {
                         //        .lineToLinearHeading(traj1pose)
                         //        .build();
 
-                        currentMode = Mode.AUTOMATIC_CONTROL;
-
-
                         Vector2d fieldFrameInput = new Vector2d(
                                 -gamepad1.left_stick_y,
                                 -gamepad1.left_stick_x
@@ -162,13 +163,12 @@ public class AugmentedTeleOp extends LinearOpMode {
 
                         drive.setWeightedDrivePower(driveDirection);
 
-
+                        currentMode = Mode.AUTOMATIC_CONTROL;
 
                     } else if (gamepad1.b) {
                         // If the B button is pressed on gamepad1, we generate a lineTo()
                         // trajectory on the fly and follow it
                         // We switch the state to AUTOMATIC_CONTROL
-                        currentMode = Mode.AUTOMATIC_CONTROL;
 
                         Trajectory traj1 = drive.trajectoryBuilder(drive.getPoseEstimate())
                                 .lineToLinearHeading(targetPower1)
@@ -183,6 +183,8 @@ public class AugmentedTeleOp extends LinearOpMode {
                         if (powerShotMode == 0 && getRuntime() > lastShot+0.2) {drive.followTrajectoryAsync(traj1); powerShotMode = 1; lastShot = getRuntime();}
                         else if (powerShotMode == 1 && getRuntime() > lastShot+0.2) {drive.followTrajectoryAsync(traj2); powerShotMode = 2; lastShot = getRuntime();}
                         else if (powerShotMode == 2 && getRuntime() > lastShot+0.2) {drive.followTrajectoryAsync(traj3); powerShotMode = 0; lastShot = getRuntime();}
+
+                        currentMode = Mode.AUTOMATIC_CONTROL;
 
                     } /* else if (gamepad1.y) {
                         // If Y is pressed, we turn the bot to the specified angle to reach
@@ -206,6 +208,18 @@ public class AugmentedTeleOp extends LinearOpMode {
                     }
                     break;
             }
+            //autoaim
+            angle = Math.atan(robot.height/Math.sqrt((poseEstimate.getX()*poseEstimate.getX())+(poseEstimate.getY()*poseEstimate.getY())));
+            robot.aim.setPosition(angle/180);
+
+            if (gamepad2.right_trigger > 0.1) {robot.flyWheel.setPower(1);}
+            else {robot.flyWheel.setPower(0);}
+            if (gamepad2.a) {}//collection goes here
+            else {}
+            if (gamepad2.x) {}//collection reverse goes here
+            else {}
+
+            if (gamepad2.b) {}
         }
     }
 }

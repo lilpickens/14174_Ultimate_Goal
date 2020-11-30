@@ -10,21 +10,21 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 public class UltGoal_Hardware
 {
     /* Public OpMode members. */
-    ModernRoboticsI2cRangeSensor range;
     //DEFINE MOTORS
     public DcMotor front_left;
     public DcMotor front_right;
     public DcMotor back_left;
     public DcMotor back_right;
 
+    public DcMotor flyWheel;
+
     //DEFINE SERVOS
-    //public Servo foundation_New1;
+    public Servo kicker;
+    public Servo aim;
 
-    //public CRServo intakeCollector;
-
-    //SERVO DEFINED VALUES
-    //public static final double intakeUp = 0.53;
-    public static final double wheelBase = 0;
+    public final double height = 26;
+    public final double kickerIn = 0;
+    public final double kickerOut = 0;
 
     /* local OpMode members. */
     HardwareMap hwMap =  null;
@@ -41,26 +41,17 @@ public class UltGoal_Hardware
         hwMap = ahwMap;
 
         // Define and Initialize Motors
-        //Drive motors
-        front_left = hwMap.get(DcMotor.class, "fl");
-        front_right = hwMap.get(DcMotor.class, "fr");
-        back_left = hwMap.get(DcMotor.class, "bl");
-        back_right = hwMap.get(DcMotor.class, "br");
 
-        //foundation_New2 = hwMap.servo.get("foundation2New");
-        //lift = hwMap.dcMotor.get("lift");
+        flyWheel = hwMap.get(DcMotor.class, "flywheel");
+
+        kicker = hwMap.servo.get("kicker");
+        aim = hwMap.servo.get("aim");
+
 
         //Auto
 
-        front_left.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        front_right.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        back_left.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        back_right.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
         //robot.init(hardwareMap);
-        //capstone2.setPosition(cap2In);
-
-
 
         // Define all Servos
 
