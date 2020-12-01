@@ -73,7 +73,7 @@ public class Servo_Test extends LinearOpMode {
         // step (using the FTC Robot Controller app on the phone).
         //Servo1 = hardwareMap.servo.get("cap");
         //Servo1 = hardwareMap.servo.get("grabber");
-        Servo1 = hardwareMap.servo.get("cap2");
+        Servo1 = hardwareMap.servo.get("aim");
         //Servo2 = hardwareMap.servo.get("pincher");
         //Servo2 = hardwareMap.servo.get("foundationL");
         //CRServo1 = hardwareMap.crservo.get("slide");
