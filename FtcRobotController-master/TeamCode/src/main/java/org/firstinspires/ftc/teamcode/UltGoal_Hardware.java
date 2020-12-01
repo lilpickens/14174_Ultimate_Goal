@@ -26,6 +26,7 @@ public class UltGoal_Hardware
     public final double height = 26;
     public final double kickerIn = 0;
     public final double kickerOut = 0;
+    public final double powerAngle = 0;
 
     /* local OpMode members. */
     HardwareMap hwMap =  null;

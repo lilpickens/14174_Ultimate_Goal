@@ -8,6 +8,7 @@ import com.acmerobotics.roadrunner.util.Angle;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.util.Range;
 
 import org.firstinspires.ftc.teamcode.UltGoal_Hardware;
 import org.firstinspires.ftc.teamcode.drive.DriveConstants;
@@ -67,6 +68,7 @@ public class AugmentedTeleOp extends LinearOpMode {
     Vector2d targetBVector = new Vector2d(-5, 17);
 
     double angle = 0;
+    double trim = 0;
 
 
     @Override
@@ -212,8 +214,15 @@ public class AugmentedTeleOp extends LinearOpMode {
                     break;
             }
             //autoaim
-            angle = Math.atan(robot.height/Math.sqrt((poseEstimate.getX()*poseEstimate.getX())+(poseEstimate.getY()*poseEstimate.getY())));
-            robot.aim.setPosition(angle/180);
+            if (gamepad2.dpad_up && trim < 180) {trim = trim+0.1;}
+            if (gamepad2.dpad_down && trim > 0) {trim = trim-0.1;}
+            if (gamepad2.dpad_left) {trim = 0;}
+            if (!gamepad2.dpad_right) {
+                angle = Range.clip(Math.atan(robot.height / Math.sqrt((poseEstimate.getX() * poseEstimate.getX()) + (poseEstimate.getY() * poseEstimate.getY())))+trim, 0, 180);
+            } else {angle = robot.powerAngle;}
+            robot.aim.setPosition(angle / 190);
+            telemetry.addData("angle", angle);
+            telemetry.update();
 
             if (gamepad2.right_trigger > 0.1) {robot.flyWheel.setPower(1);}
             else {robot.flyWheel.setPower(0);}
