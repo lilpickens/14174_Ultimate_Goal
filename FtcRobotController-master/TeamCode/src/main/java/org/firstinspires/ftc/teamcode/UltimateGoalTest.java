@@ -198,6 +198,7 @@ public class UltimateGoalTest extends LinearOpMode {
     }
 
     //FUNCTIONS
+    /*
 
     public void arcTurnForward (double degrees, double radius, double speedPercent, double direction, double time, double error) {
         //direction: Right = 1, Left = 0
@@ -301,6 +302,8 @@ public class UltimateGoalTest extends LinearOpMode {
             }
         }
     }
+
+     */
 
     public void driveSB (double duration, double speedPercent, double error, double heading, double time) {
         double position = robot.back_right.getCurrentPosition();

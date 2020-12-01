@@ -55,7 +55,7 @@ import com.qualcomm.robotcore.hardware.CRServo;
  */
 
 @Autonomous(name="Servo Test", group="14174")
-@Disabled
+//@Disabled
 public class Servo_Test extends LinearOpMode {
     // Declare OpMode members.
     private ElapsedTime runtime = new ElapsedTime();

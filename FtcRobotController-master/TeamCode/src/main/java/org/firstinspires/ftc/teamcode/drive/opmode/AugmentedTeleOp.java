@@ -86,9 +86,12 @@ public class AugmentedTeleOp extends LinearOpMode {
         // See AutoTransferPose.java for further details
         drive.setPoseEstimate(PoseStorage.currentPose);
 
-        waitForStart();
+        robot.init(hardwareMap);
 
-        if (isStopRequested()) return;
+        while (!opModeIsActive() && !isStopRequested()) {
+            telemetry.addData("Status:", "Waiting for start command.");
+            telemetry.update();
+        }
 
         while (opModeIsActive() && !isStopRequested()) {
             // Update the drive class

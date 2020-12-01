@@ -18,9 +18,10 @@ public class UltGoal_Hardware
 
     public DcMotor flyWheel;
 
-    //DEFINE SERVOS
     public Servo kicker;
     public Servo aim;
+
+    //DEFINE SERVOS
 
     public final double height = 26;
     public final double kickerIn = 0;
@@ -44,9 +45,8 @@ public class UltGoal_Hardware
 
         flyWheel = hwMap.get(DcMotor.class, "flywheel");
 
-        kicker = hwMap.servo.get("kicker");
-        aim = hwMap.servo.get("aim");
-
+        aim = ahwMap.servo.get("aim");
+        kicker = ahwMap.servo.get("kicker");
 
         //Auto
 
