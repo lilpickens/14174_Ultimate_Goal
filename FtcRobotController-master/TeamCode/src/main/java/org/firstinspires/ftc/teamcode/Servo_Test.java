@@ -77,6 +77,7 @@ public class Servo_Test extends LinearOpMode {
         //Servo2 = hardwareMap.servo.get("pincher");
         //Servo2 = hardwareMap.servo.get("foundationL");
         //CRServo1 = hardwareMap.crservo.get("slide");
+        Servo1.setPosition(0.5);
 
         // Most robots need the motor on one side to` be reversed to drive forward
         // Reverse the motor that runs backwards when connected directly to the battery

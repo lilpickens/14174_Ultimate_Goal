@@ -1,3 +1,4 @@
+/*
 package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
@@ -303,7 +304,6 @@ public class UltimateGoalTest extends LinearOpMode {
         }
     }
 
-     */
 
     public void driveSB (double duration, double speedPercent, double error, double heading, double time) {
         double position = robot.back_right.getCurrentPosition();
@@ -555,7 +555,7 @@ public class UltimateGoalTest extends LinearOpMode {
     private void initVuforia() {
         /*
          * Configure Vuforia by creating a Parameter object, and passing it to the Vuforia engine.
-         */
+
         VuforiaLocalizer.Parameters parameters = new VuforiaLocalizer.Parameters();
 
         parameters.vuforiaLicenseKey = VUFORIA_KEY;
@@ -569,7 +569,7 @@ public class UltimateGoalTest extends LinearOpMode {
 
     /**
      * Initialize the TensorFlow Object Detection engine.
-     */
+
     private void initTfod() {
         int tfodMonitorViewId = hardwareMap.appContext.getResources().getIdentifier(
                 "tfodMonitorViewId", "id", hardwareMap.appContext.getPackageName());
@@ -638,3 +638,4 @@ public class UltimateGoalTest extends LinearOpMode {
                 });
     }
 }
+*/

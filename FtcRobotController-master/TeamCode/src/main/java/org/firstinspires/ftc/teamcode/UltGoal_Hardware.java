@@ -11,15 +11,14 @@ public class UltGoal_Hardware
 {
     /* Public OpMode members. */
     //DEFINE MOTORS
-    public DcMotor front_left;
-    public DcMotor front_right;
-    public DcMotor back_left;
-    public DcMotor back_right;
 
     public DcMotor flyWheel;
+    public DcMotor collection;
+    public DcMotor arm;
 
     public Servo kicker;
     public Servo aim;
+    public Servo pincher;
 
     //DEFINE SERVOS
 
@@ -27,6 +26,9 @@ public class UltGoal_Hardware
     public final double kickerIn = 0;
     public final double kickerOut = 0;
     public final double powerAngle = 0;
+    public final double aimMax = 1;
+    public final double aimMin = 0;
+    public final double collectAngle = 0;
 
     /* local OpMode members. */
     HardwareMap hwMap =  null;
@@ -45,9 +47,12 @@ public class UltGoal_Hardware
         // Define and Initialize Motors
 
         flyWheel = hwMap.get(DcMotor.class, "flywheel");
+        collection = hwMap.get(DcMotor.class, "collection");
+        arm = hwMap.get(DcMotor.class, "arm");
 
         aim = ahwMap.servo.get("aim");
         kicker = ahwMap.servo.get("kicker");
+        pincher = ahwMap.servo.get("pincher");
 
         //Auto
 

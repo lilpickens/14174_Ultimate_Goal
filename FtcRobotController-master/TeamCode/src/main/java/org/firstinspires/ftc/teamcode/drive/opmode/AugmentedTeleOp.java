@@ -67,7 +67,7 @@ public class AugmentedTeleOp extends LinearOpMode {
     // The location we want the bot to automatically go to when we press the B button
     Vector2d targetBVector = new Vector2d(-5, 17);
 
-    double angle = 0;
+    double angle = 90;
     double trim = 0;
 
 
@@ -217,19 +217,19 @@ public class AugmentedTeleOp extends LinearOpMode {
             if (gamepad2.dpad_up && trim < 180) {trim = trim+0.1;}
             if (gamepad2.dpad_down && trim > 0) {trim = trim-0.1;}
             if (gamepad2.dpad_left) {trim = 0;}
-            if (!gamepad2.dpad_right) {
+            if (gamepad2.a) {angle = robot.collectAngle;}
+            if (!gamepad2.dpad_right && !gamepad2.a) {
                 angle = Range.clip(Math.atan(robot.height / Math.sqrt((poseEstimate.getX() * poseEstimate.getX()) + (poseEstimate.getY() * poseEstimate.getY())))+trim, 0, 180);
             } else {angle = robot.powerAngle;}
-            robot.aim.setPosition(angle / 190);
+            robot.aim.setPosition(Range.clip(angle/190, robot.aimMin, robot.aimMax));
             telemetry.addData("angle", angle);
             telemetry.update();
 
             if (gamepad2.right_trigger > 0.1) {robot.flyWheel.setPower(1);}
             else {robot.flyWheel.setPower(0);}
-            if (gamepad2.a) {}//collection goes here
-            else {}
-            if (gamepad2.x) {}//collection reverse goes here
-            else {}
+            if (gamepad2.a) {robot.collection.setPower(-1);}//collection goes here -1
+            else if (gamepad2.x) {robot.collection.setPower(1);}
+            else {robot.collection.setPower(0);}
 
             if (gamepad2.b) {}
         }
