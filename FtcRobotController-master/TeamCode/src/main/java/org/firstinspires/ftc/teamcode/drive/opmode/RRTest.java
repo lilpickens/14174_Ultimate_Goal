@@ -206,6 +206,7 @@ public class RRTest extends LinearOpMode {
                 telemetry.update();
             }
         }
+
         if (ringState == 0) {
             drive.followTrajectory(traj1);
             sleep(200);

@@ -14,6 +14,7 @@ public class UltGoal_Hardware
 
     public DcMotor flyWheel;
     public DcMotor collection;
+    public DcMotor transfer;
     public DcMotor arm;
 
     public Servo kicker;
@@ -24,10 +25,11 @@ public class UltGoal_Hardware
 
     public final double height = 26;
     public final double kickerIn = 0;
-    public final double kickerOut = 0;
+    public final double kickerOut = 1;
     public final double powerAngle = 0;
     public final double aimMax = 1;
     public final double aimMin = 0;
+    public final double aimInit = 0.5;
     public final double collectAngle = 0;
 
     /* local OpMode members. */
@@ -48,6 +50,7 @@ public class UltGoal_Hardware
 
         flyWheel = hwMap.get(DcMotor.class, "flywheel");
         collection = hwMap.get(DcMotor.class, "collection");
+        transfer = hwMap.get(DcMotor.class, "transfer");
         arm = hwMap.get(DcMotor.class, "arm");
 
         aim = ahwMap.servo.get("aim");
@@ -60,6 +63,7 @@ public class UltGoal_Hardware
         //robot.init(hardwareMap);
 
         // Define all Servos
+        aim.setPosition(aimInit);
 
         //Inititialize Servos
 

@@ -215,9 +215,13 @@ public class AugmentedTeleOp extends LinearOpMode {
             }
             //autoaim
             if (gamepad2.dpad_up && trim < 180) {trim = trim+0.1;}
+
             if (gamepad2.dpad_down && trim > 0) {trim = trim-0.1;}
+
             if (gamepad2.dpad_left) {trim = 0;}
+
             if (gamepad2.a) {angle = robot.collectAngle;}
+
             if (!gamepad2.dpad_right && !gamepad2.a) {
                 angle = Range.clip(Math.atan(robot.height / Math.sqrt((poseEstimate.getX() * poseEstimate.getX()) + (poseEstimate.getY() * poseEstimate.getY())))+trim, 0, 180);
             } else {angle = robot.powerAngle;}
@@ -227,9 +231,9 @@ public class AugmentedTeleOp extends LinearOpMode {
 
             if (gamepad2.right_trigger > 0.1) {robot.flyWheel.setPower(1);}
             else {robot.flyWheel.setPower(0);}
-            if (gamepad2.a) {robot.collection.setPower(-1);}//collection goes here -1
-            else if (gamepad2.x) {robot.collection.setPower(1);}
-            else {robot.collection.setPower(0);}
+            if (gamepad2.a) {robot.collection.setPower(-1); robot.transfer.setPower(1);}//collection goes here -1
+            else if (gamepad2.x) {robot.collection.setPower(1); robot.transfer.setPower(-1);}
+            else {robot.collection.setPower(0); robot.transfer.setPower(0);}
 
             if (gamepad2.b) {}
         }
