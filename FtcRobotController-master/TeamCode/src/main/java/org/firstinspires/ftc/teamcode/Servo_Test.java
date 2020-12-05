@@ -91,13 +91,13 @@ public class Servo_Test extends LinearOpMode {
         while (opModeIsActive()) {
 
             if (gamepad1.a) {
-                Servo1.setPosition(Servo1.getPosition() + .001);
+                Servo1.setPosition(Servo1.getPosition() + .0001);
                 telemetry.addData("Servo1 Position", Servo1.getPosition());
                 telemetry.addData("Direction", Servo1.getDirection());
                 telemetry.update();
             }
             if (gamepad1.b) {
-                Servo1.setPosition(Servo1.getPosition() - .001);
+                Servo1.setPosition(Servo1.getPosition() - .0001);
                 telemetry.addData("Servo1 Position", Servo1.getPosition());
                 telemetry.addData("Direction", Servo1.getDirection());
                 telemetry.update();

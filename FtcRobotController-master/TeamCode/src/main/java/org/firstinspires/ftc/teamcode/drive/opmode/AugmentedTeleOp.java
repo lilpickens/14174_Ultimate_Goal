@@ -222,11 +222,15 @@ public class AugmentedTeleOp extends LinearOpMode {
 
             if (gamepad2.a) {angle = robot.collectAngle;}
 
+            if (gamepad2.y) {robot.kicker.setPosition(robot.kickerOut);}
+            else {robot.kicker.setPosition(robot.kickerIn);}
+
             if (!gamepad2.dpad_right && !gamepad2.a) {
-                angle = Range.clip(Math.atan(robot.height / Math.sqrt((poseEstimate.getX() * poseEstimate.getX()) + (poseEstimate.getY() * poseEstimate.getY())))+trim, 0, 180);
-            } else {angle = robot.powerAngle;}
-            robot.aim.setPosition(Range.clip(angle/190, robot.aimMin, robot.aimMax));
+                angle = Range.clip(Math.toDegrees(Math.atan(robot.height / Math.sqrt(((71-poseEstimate.getX()) * (71-poseEstimate.getX())) + ((36-poseEstimate.getY()) * (36-poseEstimate.getY())))))+trim, 0, 180);
+            } else if (!gamepad2.a) {angle = robot.powerAngle;}
+            robot.aim.setPosition(Range.clip((1-(angle/198))-0.6, robot.aimMax, robot.aimMin));
             telemetry.addData("angle", angle);
+            telemetry.addData("servo", (1-(angle/198))-0.6);
             telemetry.update();
 
             if (gamepad2.right_trigger > 0.1) {robot.flyWheel.setPower(1);}

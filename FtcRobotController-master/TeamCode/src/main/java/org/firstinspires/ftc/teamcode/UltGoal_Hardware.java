@@ -24,13 +24,13 @@ public class UltGoal_Hardware
     //DEFINE SERVOS
 
     public final double height = 26;
-    public final double kickerIn = 0;
-    public final double kickerOut = 1;
+    public final double kickerIn = 0.69;
+    public final double kickerOut = 0.36;
     public final double powerAngle = 0;
-    public final double aimMax = 1;
-    public final double aimMin = 0;
-    public final double aimInit = 0.5;
-    public final double collectAngle = 0;
+    public final double aimMax = 0.324;
+    public final double aimMin = 0.495;
+    public final double aimInit = 0.4;
+    public final double collectAngle = -18.81;
 
     /* local OpMode members. */
     HardwareMap hwMap =  null;
@@ -58,6 +58,7 @@ public class UltGoal_Hardware
         pincher = ahwMap.servo.get("pincher");
 
         //Auto
+        kicker.setPosition(kickerIn);
 
 
         //robot.init(hardwareMap);
