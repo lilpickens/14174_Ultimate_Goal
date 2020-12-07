@@ -48,6 +48,7 @@ public class AugmentedTeleOp extends LinearOpMode {
         DRIVER_CONTROL,
         AUTOMATIC_CONTROL
     }
+
     private PIDFController headingController = new PIDFController(SampleMecanumDrive.HEADING_PID);
     private Vector2d targetPosition = new Vector2d(71, 36);
 
@@ -113,11 +114,19 @@ public class AugmentedTeleOp extends LinearOpMode {
             // control to the automatic mode
             switch (currentMode) {
                 case DRIVER_CONTROL:
-                    driveDirection = new Pose2d(
-                            -gamepad1.left_stick_y,
-                            -gamepad1.left_stick_x,
-                            -gamepad1.right_stick_x
-                    );
+                    if (gamepad1.right_trigger > 0.1) {
+                        driveDirection = new Pose2d(
+                                -gamepad1.left_stick_y/2,
+                                -gamepad1.left_stick_x/2,
+                                -gamepad1.right_stick_x/2
+                        );
+                    } else {
+                        driveDirection = new Pose2d(
+                                -gamepad1.left_stick_y,
+                                -gamepad1.left_stick_x,
+                                -gamepad1.right_stick_x
+                        );
+                    }
                     drive.setWeightedDrivePower(driveDirection);
 
                     if (gamepad1.a) {
@@ -228,7 +237,7 @@ public class AugmentedTeleOp extends LinearOpMode {
             if (!gamepad2.dpad_right && !gamepad2.a) {
                 angle = Range.clip(Math.toDegrees(Math.atan(robot.height / Math.sqrt(((71-poseEstimate.getX()) * (71-poseEstimate.getX())) + ((36-poseEstimate.getY()) * (36-poseEstimate.getY())))))+trim, 0, 180);
             } else if (!gamepad2.a) {angle = robot.powerAngle;}
-            robot.aim.setPosition(Range.clip((1-(angle/198))-0.6, robot.aimMax, robot.aimMin));
+            robot.aim.setPosition(Range.clip((angle/198)+robot.aimInit, robot.aimMin, robot.aimMax));
             telemetry.addData("angle", angle);
             telemetry.addData("servo", (1-(angle/198))-0.6);
             telemetry.update();

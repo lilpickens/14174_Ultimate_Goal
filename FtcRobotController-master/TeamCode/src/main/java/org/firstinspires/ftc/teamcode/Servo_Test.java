@@ -86,7 +86,7 @@ public class Servo_Test extends LinearOpMode {
         waitForStart();
         runtime.reset();
         //Servo2.setDirection(Servo.Direction.FORWARD);
-        Servo1.setDirection(Servo.Direction.FORWARD);
+        Servo1.setDirection(Servo.Direction.REVERSE);
         // run until the end of the match (driver presses STOP)
         while (opModeIsActive()) {
 

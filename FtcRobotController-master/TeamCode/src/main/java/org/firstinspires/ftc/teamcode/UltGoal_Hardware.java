@@ -24,12 +24,12 @@ public class UltGoal_Hardware
     //DEFINE SERVOS
 
     public final double height = 26;
-    public final double kickerIn = 0.69;
-    public final double kickerOut = 0.36;
+    public final double kickerIn = 0.5757;
+    public final double kickerOut = 0.3;
     public final double powerAngle = 0;
-    public final double aimMax = 0.324;
-    public final double aimMin = 0.495;
-    public final double aimInit = 0.4;
+    public final double aimMax = 0.663;
+    public final double aimMin = 0.4848;
+    public final double aimInit = 0.6;
     public final double collectAngle = -18.81;
 
     /* local OpMode members. */
