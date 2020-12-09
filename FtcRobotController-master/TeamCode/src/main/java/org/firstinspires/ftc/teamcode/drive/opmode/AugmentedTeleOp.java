@@ -223,9 +223,14 @@ public class AugmentedTeleOp extends LinearOpMode {
                     break;
             }
             //autoaim
-            if (gamepad2.dpad_up && trim < 180) {trim = trim+0.1;}
+            if (gamepad2.dpad_up && trim < 180) {
+             //   robot.aim.setPosition(robot.aim.getPosition()+0.01);
+                trim = trim+0.1;
+            }// else if (gamepad2.dpad_down) {robot.aim.setPosition(robot.aim.getPosition()-0.01);}
 
-            if (gamepad2.dpad_down && trim > 0) {trim = trim-0.1;}
+            if (gamepad2.dpad_down && trim > 0) {
+                trim = trim-0.1;
+            }
 
             if (gamepad2.y) {robot.kicker.setPosition(robot.kickerOut);}
             else {robot.kicker.setPosition(robot.kickerIn);}
