@@ -96,6 +96,8 @@ public class AugmentedTeleOp extends LinearOpMode {
             telemetry.update();
         }
 
+        robot.lock.setPosition(robot.lockDistance);
+
         while (opModeIsActive() && !isStopRequested()) {
             // Update the drive class
             drive.update();
