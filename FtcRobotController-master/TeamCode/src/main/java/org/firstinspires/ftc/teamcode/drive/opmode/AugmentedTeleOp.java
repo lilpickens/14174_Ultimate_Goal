@@ -49,6 +49,9 @@ public class AugmentedTeleOp extends LinearOpMode {
         AUTOMATIC_CONTROL
     }
 
+    double armState = 0;
+    double armMove  = 0;
+
     private PIDFController headingController = new PIDFController(SampleMecanumDrive.HEADING_PID);
     private Vector2d targetPosition = new Vector2d(71, 36);
 
@@ -95,8 +98,6 @@ public class AugmentedTeleOp extends LinearOpMode {
             telemetry.addData("Status:", "Waiting for start command.");
             telemetry.update();
         }
-
-        robot.lock.setPosition(robot.lockDistance);
 
         while (opModeIsActive() && !isStopRequested()) {
             // Update the drive class
@@ -249,6 +250,24 @@ public class AugmentedTeleOp extends LinearOpMode {
             telemetry.addData("angle", angle);
             telemetry.addData("servo", (angle/198)+robot.aimInit);
             telemetry.update();
+
+            if (gamepad2.right_stick_y > 0.1) {
+                robot.arm.setPower(gamepad2.right_stick_y);
+            } else {
+                robot.arm.setPower(0);
+            }
+
+            if (gamepad2.left_bumper) {
+                if (armState == 1 && armMove > getRuntime() + 0.5) {
+                    robot.armOut.setPosition(robot.armDown);
+                    armState = 0;
+                    armMove = getRuntime();
+                } else if (armState == 0 && armMove > getRuntime() + 0.5) {
+                    robot.armOut.setPosition(robot.armUp);
+                    armState = 1;
+                    armMove = getRuntime();
+                }
+            }
 
             //flywheel
             if (gamepad2.right_trigger > 0.1) {robot.flyWheel.setPower(1);}

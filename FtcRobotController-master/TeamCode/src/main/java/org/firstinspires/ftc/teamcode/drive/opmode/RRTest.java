@@ -81,6 +81,7 @@ public class RRTest extends LinearOpMode {
                 .strafeRight(7.5)
                 .build();
          */
+        /*
         Trajectory traj1 = drive.trajectoryBuilder(startPose)
                 .splineTo(new Vector2d(-3,5),Math.toRadians(0))
                 .build();
@@ -129,6 +130,7 @@ public class RRTest extends LinearOpMode {
                 .lineTo(new Vector2d(6, 24))
                 .build();
          */
+        /*
         Trajectory traj14 = drive.trajectoryBuilder(traj3.end())
                 .splineTo(new Vector2d(42, 25), Math.toRadians(0))
                 .build();
@@ -167,6 +169,22 @@ public class RRTest extends LinearOpMode {
         Trajectory traj48 = drive.trajectoryBuilder(traj47.end())
                 .lineTo(new Vector2d(6, 47))
                 .build();
+         */
+
+        //NEW NO STACK
+        Trajectory traj01 = drive.trajectoryBuilder(startPose)
+                .splineToConstantHeading(new Vector2d(-67, 22), Math.toRadians(0))
+                .addDisplacementMarker(() -> {
+                    robot.pincher.setPosition(robot.pinched);
+                })
+                .splineToConstantHeading(new Vector2d(-22,  20), Math.toRadians(0))
+                .splineToConstantHeading(new Vector2d(12, 50), Math.toRadians(0))
+                .addDisplacementMarker(() -> {
+                    robot.pincher.setPosition(robot.unPinched);
+                })
+                .splineToConstantHeading(new Vector2d(6, 50), Math.toRadians(0))
+                .build();
+
 
         if (tfod != null) {
             // getUpdatedRecognitions() will return null if no new information is available since
@@ -208,6 +226,7 @@ public class RRTest extends LinearOpMode {
         }
 
         if (ringState == 0) {
+            /*
             drive.followTrajectory(traj1);
             sleep(200);
             drive.followTrajectory(traj2);
@@ -224,6 +243,9 @@ public class RRTest extends LinearOpMode {
             drive.followTrajectory(traj08);
             PoseStorage.currentPose = drive.getPoseEstimate();
             stop();
+
+             */
+            drive.followTrajectory(traj01);
         }
         else if (ringState == 1) {
             /*
@@ -246,6 +268,7 @@ public class RRTest extends LinearOpMode {
              */
         }
         else if(ringState == 4) {
+            /*
             drive.followTrajectory(traj1);
             sleep(200);
             drive.followTrajectory(traj2);
@@ -262,6 +285,8 @@ public class RRTest extends LinearOpMode {
             drive.followTrajectory(traj48);
             PoseStorage.currentPose = drive.getPoseEstimate();
             stop();
+
+             */
         }
     }
     private void initVuforia() {

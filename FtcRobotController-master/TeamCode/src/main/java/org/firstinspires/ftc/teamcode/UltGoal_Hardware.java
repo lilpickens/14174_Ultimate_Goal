@@ -20,7 +20,6 @@ public class UltGoal_Hardware
     public Servo kicker;
     public Servo aim;
     public Servo pincher;
-    public Servo lock;
     public Servo kickOut;
     public Servo armOut;
 
@@ -37,6 +36,11 @@ public class UltGoal_Hardware
     public final double collectAngle = -18.81;
     public final double lockDistance = 0.31; //0.17 is in, 0.85 is out
     public final double kickOutDistance = 0;
+
+    public final double armUp = 0.684;
+    public final double armDown = 0.138;
+    public final double pinched = 0.39;
+    public final double unPinched = 1;
 
     /* local OpMode members. */
     HardwareMap hwMap =  null;
@@ -62,7 +66,6 @@ public class UltGoal_Hardware
         aim = ahwMap.servo.get("aim");
         kicker = ahwMap.servo.get("kicker");
         pincher = ahwMap.servo.get("pincher");
-        lock = ahwMap.servo.get("lock");
         kickOut = ahwMap.servo.get("kickOut");
         armOut = ahwMap.servo.get("armOut");
 
@@ -70,11 +73,16 @@ public class UltGoal_Hardware
 
         //Auto
         kicker.setPosition(kickerIn);
-        lock.setPosition(0.17);
         kickOut.setPosition(kickOutDistance);
 
         flyWheel.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        arm.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         collection.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+
+        arm.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+
+        armOut.setPosition(armDown);
+        pincher.setPosition(unPinched);
 
 
 
