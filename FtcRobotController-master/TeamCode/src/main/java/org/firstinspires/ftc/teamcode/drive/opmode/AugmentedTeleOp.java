@@ -52,6 +52,9 @@ public class AugmentedTeleOp extends LinearOpMode {
     double armState = 0;
     double armMove  = 0;
 
+    double pinchState = 0;
+    double pinchMove  = 0;
+
     private PIDFController headingController = new PIDFController(SampleMecanumDrive.HEADING_PID);
     private Vector2d targetPosition = new Vector2d(71, 36);
 
@@ -225,21 +228,22 @@ public class AugmentedTeleOp extends LinearOpMode {
                     }
                     break;
             }
-            //autoaim
-            if (gamepad2.dpad_up && trim < 180) {
-             //   robot.aim.setPosition(robot.aim.getPosition()+0.01);
-                trim = trim+0.1;
-            }// else if (gamepad2.dpad_down) {robot.aim.setPosition(robot.aim.getPosition()-0.01);}
-
-            if (gamepad2.dpad_down && trim > 0) {
-                trim = trim-0.1;
-            }
+            
 
             if (gamepad2.y) {robot.kicker.setPosition(robot.kickerOut);}
             else {robot.kicker.setPosition(robot.kickerIn);}
 
             //auto aiming
             if (gamepad2.dpad_left) {trim = 0;}
+
+            if (gamepad2.dpad_up && trim < 180) {
+                //   robot.aim.setPosition(robot.aim.getPosition()+0.01);
+                   trim = trim+0.1;
+               }// else if (gamepad2.dpad_down) {robot.aim.setPosition(robot.aim.getPosition()-0.01);}
+   
+               if (gamepad2.dpad_down && trim > 0) {
+                   trim = trim-0.1;
+               }
 
             if (gamepad2.a) {angle = robot.collectAngle;}
 
@@ -251,7 +255,7 @@ public class AugmentedTeleOp extends LinearOpMode {
             telemetry.addData("servo", (angle/198)+robot.aimInit);
             telemetry.update();
 
-            if (gamepad2.right_stick_y > 0.1) {
+            if (|gamepad2.right_stick_y| > 0.1) {
                 robot.arm.setPower(gamepad2.right_stick_y);
             } else {
                 robot.arm.setPower(0);
@@ -266,6 +270,18 @@ public class AugmentedTeleOp extends LinearOpMode {
                     robot.armOut.setPosition(robot.armUp);
                     armState = 1;
                     armMove = getRuntime();
+                }
+            }
+
+            if (gamepad2.right_bumper) {
+                if (pinchState == 1 && pinchMove > getRuntime() + 0.5) {
+                    robot.pincher.setPosition(robot.pinched);
+                    pinchState = 0;
+                    pinchMove = getRuntime();
+                } else if (pinchState == 0 && pinchMove > getRuntime() + 0.5) {
+                    robot.pincher.setPosition(robot.unPinched);
+                    pinchState = 1;
+                    pinchMove = getRuntime();
                 }
             }
 

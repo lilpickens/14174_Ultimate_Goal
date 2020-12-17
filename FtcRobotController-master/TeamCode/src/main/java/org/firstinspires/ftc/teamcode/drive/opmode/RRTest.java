@@ -60,7 +60,7 @@ public class RRTest extends LinearOpMode {
         telemetry.update();
 
         SampleMecanumDrive drive = new SampleMecanumDrive(hardwareMap);
-        Pose2d startPose = new Pose2d(-68, 25, Math.toRadians(0));
+        Pose2d startPose = new Pose2d(-63, 20, Math.toRadians(0));
         drive.setPoseEstimate(startPose);
         drive.update();
 
@@ -134,10 +134,8 @@ public class RRTest extends LinearOpMode {
         Trajectory traj14 = drive.trajectoryBuilder(traj3.end())
                 .splineTo(new Vector2d(42, 25), Math.toRadians(0))
                 .build();
-        Trajectory traj15 = drive.trajectoryBuilder(traj14.end())
-                .splineToSplineHeading(new Pose2d(11, 23, Math.toRadians(180)), Math.toRadians(180))
-                .splineToConstantHeading(new Vector2d(-15, 35), Math.toRadians(180))
-                .build();
+        Trajectory traj15 = drive.trajectoryBuilder(traj14.end()).splineToSplineHeading(new Pose2d(11, 23, Math.toRadians(180)), Math.toRadians(180)).splineToConstantHeading(new Vector2d(-15, 35), Math.toRadians(180)).build();
+        
         Trajectory traj16 = drive.trajectoryBuilder(traj15.end())
                 .splineToLinearHeading(new Pose2d(-65, 32, Math.toRadians(0)), Math.toRadians(0))
                 .splineToConstantHeading(new Vector2d(-65, 42), Math.toRadians(90))
@@ -169,22 +167,45 @@ public class RRTest extends LinearOpMode {
         Trajectory traj48 = drive.trajectoryBuilder(traj47.end())
                 .lineTo(new Vector2d(6, 47))
                 .build();
-         */
-
-        //NEW NO STACK
+        */
+        
+        //new 0 STACK TRAJECTORY
         Trajectory traj01 = drive.trajectoryBuilder(startPose)
-                .splineToConstantHeading(new Vector2d(-67, 22), Math.toRadians(0))
+                .splineToConstantHeading(new Vector2d(-52, 16), Math.toRadians(0))
                 .addDisplacementMarker(() -> {
-                    robot.pincher.setPosition(robot.pinched);
+                        robot.pincher.setPosition(robot.pinched);
                 })
-                .splineToConstantHeading(new Vector2d(-22,  20), Math.toRadians(0))
-                .splineToConstantHeading(new Vector2d(12, 50), Math.toRadians(0))
+                .splineToConstantHeading(new Vector2d(48, 40), Math.toRadians(0))
                 .addDisplacementMarker(() -> {
-                    robot.pincher.setPosition(robot.unPinched);
+                        robot.pincher.setPosition(robot.unPinched);
                 })
-                .splineToConstantHeading(new Vector2d(6, 50), Math.toRadians(0))
+                .splineToConstantHeading(new Vector2d(12, 40), Math.toRadians(0))
                 .build();
-
+        
+        Trajectory traj11 = drive.trajectoryBuilder(startPose)
+                .splineToConstantHeading(new Vector2d(-52, 16), Math.toRadians(0))
+                .addDisplacementMarker(() -> {
+                        robot.pincher.setPosition(robot.pinched);
+                })
+                .splineToConstantHeading(new Vector2d(-24, 16), Math.toRadians(0))
+                .addDisplacementMarker(() -> {
+                        robot.pincher.setPosition(robot.unPinched);
+                })
+                .splineToConstantHeading(new Vector2d(12, 16), Math.toRadians(0))
+                .build();
+        
+        Trajectory traj41 = drive.trajectoryBuilder(startPose)
+                .splineToConstantHeading(new Vector2d(-52, 16), Math.toRadians(0))
+                .addDisplacementMarker(() -> {
+                        robot.pincher.setPosition(robot.pinched);
+                })
+                .splineToConstantHeading(new Vector2d(-8, 16), Math.toRadians(0))
+                .splineToConstantHeading(new Vector2d(-58, 52), Math.toRadians(0))
+                .addDisplacementMarker(() -> {
+                        robot.pincher.setPosition(robot.unPinched);
+                })
+                .splineToConstantHeading(new Vector2d(12, 52), Math.toRadians(0))
+                .build();
 
         if (tfod != null) {
             // getUpdatedRecognitions() will return null if no new information is available since
@@ -224,9 +245,8 @@ public class RRTest extends LinearOpMode {
                 telemetry.update();
             }
         }
-
         if (ringState == 0) {
-            /*
+        /*
             drive.followTrajectory(traj1);
             sleep(200);
             drive.followTrajectory(traj2);
@@ -243,9 +263,8 @@ public class RRTest extends LinearOpMode {
             drive.followTrajectory(traj08);
             PoseStorage.currentPose = drive.getPoseEstimate();
             stop();
-
-             */
-            drive.followTrajectory(traj01);
+        */
+        drive.followTrajectory(traj01)
         }
         else if (ringState == 1) {
             /*
@@ -266,9 +285,10 @@ public class RRTest extends LinearOpMode {
             PoseStorage.currentPose = drive.getPoseEstimate();
             stop();
              */
+            drive.followTrajectory(traj11)
         }
         else if(ringState == 4) {
-            /*
+        /*
             drive.followTrajectory(traj1);
             sleep(200);
             drive.followTrajectory(traj2);
@@ -285,8 +305,8 @@ public class RRTest extends LinearOpMode {
             drive.followTrajectory(traj48);
             PoseStorage.currentPose = drive.getPoseEstimate();
             stop();
-
-             */
+        */
+                drive.followTrajectory(traj41)
         }
     }
     private void initVuforia() {
