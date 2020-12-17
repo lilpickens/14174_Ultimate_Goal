@@ -81,7 +81,7 @@ public class UltGoal_Hardware
 
         arm.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
-        armOut.setPosition(armDown);
+        //armOut.setPosition(armDown);
         pincher.setPosition(unPinched);
 
 

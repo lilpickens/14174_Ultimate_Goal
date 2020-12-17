@@ -255,31 +255,41 @@ public class AugmentedTeleOp extends LinearOpMode {
             telemetry.addData("servo", (angle/198)+robot.aimInit);
             telemetry.update();
 
-            if (|gamepad2.right_stick_y| > 0.1) {
+            if (Math.abs(gamepad2.right_stick_y) > 0.1) {
                 robot.arm.setPower(gamepad2.right_stick_y);
             } else {
                 robot.arm.setPower(0);
             }
 
             if (gamepad2.left_bumper) {
-                if (armState == 1 && armMove > getRuntime() + 0.5) {
+                if (armState == 1 && armMove + 0.5 > getRuntime()) {
                     robot.armOut.setPosition(robot.armDown);
                     armState = 0;
-                    armMove = getRuntime();
-                } else if (armState == 0 && armMove > getRuntime() + 0.5) {
+                }
+                if (armState == 0 && pinchMove + 0.5 > getRuntime()) {
                     robot.armOut.setPosition(robot.armUp);
                     armState = 1;
-                    armMove = getRuntime();
                 }
             }
 
+            /*
+            if (gamepad2.right_bumper && robot.pincher.getPosition() > robot.pinched) {
+                robot.pincher.setPosition(robot.pincher.getPosition() - 0.01);
+            }
+
+            if (gamepad2.left_trigger > 0.1 && robot.pincher.getPosition() < robot.unPinched) {
+                robot.pincher.setPosition(robot.pincher.getPosition() + 0.01);
+            }
+            */
+
             if (gamepad2.right_bumper) {
-                if (pinchState == 1 && pinchMove > getRuntime() + 0.5) {
-                    robot.pincher.setPosition(robot.pinched);
+                if (pinchState == 1 && pinchMove + 0.5 > getRuntime()) {
+                    robot.pincher.setPosition(0.39);
                     pinchState = 0;
                     pinchMove = getRuntime();
-                } else if (pinchState == 0 && pinchMove > getRuntime() + 0.5) {
-                    robot.pincher.setPosition(robot.unPinched);
+                }
+                if (pinchState == 0 && pinchMove + 0.5 > getRuntime()) {
+                    robot.pincher.setPosition(1);
                     pinchState = 1;
                     pinchMove = getRuntime();
                 }
