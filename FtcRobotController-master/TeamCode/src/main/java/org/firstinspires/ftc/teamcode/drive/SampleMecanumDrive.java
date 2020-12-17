@@ -159,7 +159,7 @@ public class SampleMecanumDrive extends MecanumDrive {
         rightRear.setDirection(DcMotorSimple.Direction.FORWARD);
 
         // TODO: if desired, use setLocalizer() to change the localization method
-        //setLocalizer(new StandardTrackingWheelLocalizer(hardwareMap));  //RE ENABLE THIS AT SOME POINT
+        setLocalizer(new StandardTrackingWheelLocalizer(hardwareMap));  //RE ENABLE THIS AT SOME POINT
     }
 
     public TrajectoryBuilder trajectoryBuilder(Pose2d startPose) {
