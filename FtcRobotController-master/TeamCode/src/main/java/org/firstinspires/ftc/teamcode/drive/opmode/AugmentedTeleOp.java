@@ -289,7 +289,7 @@ public class AugmentedTeleOp extends LinearOpMode {
                     pinchMove = getRuntime();
                 }
                 if (pinchState == 0 && pinchMove + 0.5 > getRuntime()) {
-                    robot.pincher.setPosition(1);
+                    robot.pincher.setPosition(0.95);
                     pinchState = 1;
                     pinchMove = getRuntime();
                 }
