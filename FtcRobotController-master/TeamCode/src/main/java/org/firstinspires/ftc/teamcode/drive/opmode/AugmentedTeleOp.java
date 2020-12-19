@@ -262,13 +262,15 @@ public class AugmentedTeleOp extends LinearOpMode {
             }
 
             if (gamepad2.left_bumper) {
-                if (armState == 1 && armMove + 0.5 > getRuntime()) {
+                if (armState == 1 && armMove + 0.5 < getRuntime()) {
                     robot.armOut.setPosition(robot.armDown);
                     armState = 0;
+                    armMove = getRuntime();
                 }
-                if (armState == 0 && pinchMove + 0.5 > getRuntime()) {
+                if (armState == 0 && armMove + 0.5 < getRuntime()) {
                     robot.armOut.setPosition(robot.armUp);
                     armState = 1;
+                    armMove = getRuntime();
                 }
             }
 
@@ -283,12 +285,12 @@ public class AugmentedTeleOp extends LinearOpMode {
             */
 
             if (gamepad2.right_bumper) {
-                if (pinchState == 1 && pinchMove + 0.5 > getRuntime()) {
+                if (pinchState == 1 && pinchMove + 0.5 < getRuntime()) {
                     robot.pincher.setPosition(0.39);
                     pinchState = 0;
                     pinchMove = getRuntime();
                 }
-                if (pinchState == 0 && pinchMove + 0.5 > getRuntime()) {
+                if (pinchState == 0 && pinchMove + 0.5 < getRuntime()) {
                     robot.pincher.setPosition(0.95);
                     pinchState = 1;
                     pinchMove = getRuntime();
