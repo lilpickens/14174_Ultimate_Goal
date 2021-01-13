@@ -62,6 +62,8 @@ public class Servo_Test extends LinearOpMode {
     Servo Servo1;
     //Servo Servo2;
     //CRServo CRServo1;
+    Servo kicker;
+    DcMotor Flywheel;
 
     @Override
     public void runOpMode() {
@@ -72,7 +74,9 @@ public class Servo_Test extends LinearOpMode {
         // to 'get' must correspond to the names assigned during the robot configuration
         // step (using the FTC Robot Controller app on the phone).
         //Servo1 = hardwareMap.servo.get("cap");
-        //Servo1 = hardwareMap.servo.get("grabber");
+        //Servo1 = hardwareMap.servo.get("pincher");
+        kicker = hardwareMap.servo.get("kicker");
+        Flywheel = hardwareMap.get(DcMotor.class, "flywheel");
         Servo1 = hardwareMap.servo.get("aim");
         //Servo2 = hardwareMap.servo.get("pincher");
         //Servo2 = hardwareMap.servo.get("foundationL");
@@ -103,7 +107,10 @@ public class Servo_Test extends LinearOpMode {
                 telemetry.addData("Direction", Servo1.getDirection());
                 telemetry.update();
             }
-
+            if (gamepad1.right_trigger > 0.1) {
+                Flywheel.setPower(1);
+            } else {Flywheel.setPower(0);}
+            if (gamepad1.y) {kicker.setPosition(0.3);} else {kicker.setPosition(0.5757);}
 
             /*if(gamepad1.x) {
                 Servo2.setPosition(Servo2.getPosition() + .001);

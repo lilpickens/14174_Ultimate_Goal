@@ -39,8 +39,12 @@ public class UltGoal_Hardware
 
     public final double armUp = 0.684;
     public final double armDown = 0.138;
-    public final double pinched = 0.39;
+    public final double pinched = 0.411;
     public final double unPinched = 1;
+
+    public final double aimGoal = 0;
+    public final double aimPower = 0;
+    public final double aimCollect = 0.505;
 
     /* local OpMode members. */
     HardwareMap hwMap =  null;

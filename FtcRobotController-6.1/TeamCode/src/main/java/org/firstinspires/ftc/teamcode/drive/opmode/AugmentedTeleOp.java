@@ -237,6 +237,7 @@ public class AugmentedTeleOp extends LinearOpMode {
             else {robot.kicker.setPosition(robot.kickerIn);}
 
             //auto aiming
+            /* I want to bring this back but right now localization isnt good enough for it
             if (gamepad2.dpad_left) {trim = 0;}
 
             if (gamepad2.y && trim < 180) {
@@ -261,6 +262,15 @@ public class AugmentedTeleOp extends LinearOpMode {
             };
 
             robot.aim.setPosition(Range.clip((angle/198)+robot.aimInit, robot.aimMin, robot.aimMax));
+             */
+
+            if (gamepad2.a) {
+                robot.aim.setPosition(robot.aimCollect);
+            } else if (gamepad2.dpad_right) {
+                robot.aim.setPosition(robot.aimPower);
+            } else {
+                robot.aim.setPosition(robot.aimGoal);
+            }
 
             if (Math.abs(gamepad2.left_stick_y) > 0.1) {
                 robot.arm.setPower(gamepad2.left_stick_y);
