@@ -30,7 +30,7 @@ public class UltGoal_Hardware
     public final double kickerIn = 0.5757;
     public final double kickerOut = 0.3;
     public final double powerAngle = 0;
-    public final double aimMax = 0.663;
+    public final double aimMax = 0.706;
     public final double aimMin = 0.4848;
     public final double aimInit = 0.6;
     public final double collectAngle = -18.81;

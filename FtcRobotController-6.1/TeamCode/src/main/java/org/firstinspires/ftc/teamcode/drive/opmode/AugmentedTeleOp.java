@@ -114,7 +114,10 @@ public class AugmentedTeleOp extends LinearOpMode {
             telemetry.addData("x", poseEstimate.getX());
             telemetry.addData("y", poseEstimate.getY());
             telemetry.addData("heading", poseEstimate.getHeading());
+            telemetry.addData("angle", angle);
+            telemetry.addData("servo", (angle/198)+robot.aimInit);
             telemetry.update();
+
 
             // We follow different logic based on whether we are in manual driver control or switch
             // control to the automatic mode
@@ -124,13 +127,13 @@ public class AugmentedTeleOp extends LinearOpMode {
                         driveDirection = new Pose2d(
                                 -gamepad1.left_stick_y/2,
                                 -gamepad1.left_stick_x/2,
-                                -gamepad1.right_stick_x/2
+                                (-(gamepad1.right_stick_x/2) + (gamepad1.left_stick_y * 0.1))
                         );
                     } else {
                         driveDirection = new Pose2d(
                                 -gamepad1.left_stick_y,
                                 -gamepad1.left_stick_x,
-                                -gamepad1.right_stick_x
+                                (-gamepad1.right_stick_x + (gamepad1.left_stick_y * 0.1))
                         );
                     }
                     drive.setWeightedDrivePower(driveDirection);
@@ -236,27 +239,31 @@ public class AugmentedTeleOp extends LinearOpMode {
             //auto aiming
             if (gamepad2.dpad_left) {trim = 0;}
 
-            if (gamepad2.dpad_up && trim < 180) {
-                //   robot.aim.setPosition(robot.aim.getPosition()+0.01);
-                   trim = trim+0.1;
-               }// else if (gamepad2.dpad_down) {robot.aim.setPosition(robot.aim.getPosition()-0.01);}
-   
-               if (gamepad2.dpad_down && trim > 0) {
-                   trim = trim-0.1;
-               }
+            if (gamepad2.y && trim < 180) {
+                   trim += 0.1;
+            } else if (gamepad2.x && trim > 0) {
+                   trim -= 0.1;
+            }
 
-            if (gamepad2.a) {angle = robot.collectAngle;}
+            if (gamepad2.a) {
+                angle = robot.collectAngle;
+            } else if (gamepad2.dpad_right) {
+                angle = robot.powerAngle;
+            } else {
+                angle = Range.clip(
+                        Math.toDegrees( //Changing the output of this from radians to degrees
+                                Math.atan( //Taking the inverse tangent of the height of the goal over the length to the goal.
+                                        robot.height / Math.sqrt( //pythagorian theorem to find the distance to the goal.
+                                                ((71 - poseEstimate.getX()) * (71 - poseEstimate.getX())) + ((36 - poseEstimate.getY()) * (36 - poseEstimate.getY()))
+                                        )
+                                )
+                        ) + trim, 0, 180);
+            };
 
-            if (!gamepad2.dpad_right && !gamepad2.a) {
-                angle = Range.clip(Math.toDegrees(Math.atan(robot.height / Math.sqrt(((71-poseEstimate.getX()) * (71-poseEstimate.getX())) + ((36-poseEstimate.getY()) * (36-poseEstimate.getY())))))+trim, 0, 180);
-            } else if (!gamepad2.a) {angle = robot.powerAngle;}
             robot.aim.setPosition(Range.clip((angle/198)+robot.aimInit, robot.aimMin, robot.aimMax));
-            telemetry.addData("angle", angle);
-            telemetry.addData("servo", (angle/198)+robot.aimInit);
-            telemetry.update();
 
-            if (Math.abs(gamepad2.right_stick_y) > 0.1) {
-                robot.arm.setPower(gamepad2.right_stick_y);
+            if (Math.abs(gamepad2.left_stick_y) > 0.1) {
+                robot.arm.setPower(gamepad2.left_stick_y);
             } else {
                 robot.arm.setPower(0);
             }
@@ -273,16 +280,6 @@ public class AugmentedTeleOp extends LinearOpMode {
                     armMove = getRuntime();
                 }
             }
-
-            /*
-            if (gamepad2.right_bumper && robot.pincher.getPosition() > robot.pinched) {
-                robot.pincher.setPosition(robot.pincher.getPosition() - 0.01);
-            }
-
-            if (gamepad2.left_trigger > 0.1 && robot.pincher.getPosition() < robot.unPinched) {
-                robot.pincher.setPosition(robot.pincher.getPosition() + 0.01);
-            }
-            */
 
             if (gamepad2.right_bumper) {
                 if (pinchState == 1 && pinchMove + 0.5 < getRuntime()) {

@@ -173,7 +173,7 @@ public class RRTest extends LinearOpMode {
         Trajectory traj01 = drive.trajectoryBuilder(startPose)
                 .splineToConstantHeading(new Vector2d(-52, 16), Math.toRadians(0))
                 .build();
-        Trajectory traj02 = drive.trajectoryBuilder(startPose)
+        Trajectory traj02 = drive.trajectoryBuilder(traj01.end())
                 .splineToConstantHeading(new Vector2d(48, 58), Math.toRadians(0))
                 .build();
         Trajectory traj03 = drive.trajectoryBuilder(startPose)
