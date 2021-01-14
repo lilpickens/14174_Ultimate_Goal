@@ -233,7 +233,7 @@ public class AugmentedTeleOp extends LinearOpMode {
             }
             
 
-            if (gamepad2.y) {robot.kicker.setPosition(robot.kickerOut);}
+            if (gamepad2.y && !gamepad2.a) {robot.kicker.setPosition(robot.kickerOut);}
             else {robot.kicker.setPosition(robot.kickerIn);}
 
             //auto aiming
@@ -305,7 +305,7 @@ public class AugmentedTeleOp extends LinearOpMode {
             }
 
             //flywheel
-            if (gamepad2.right_trigger > 0.1) {robot.flyWheel.setPower(1);}
+            if (gamepad2.right_trigger > 0.1 && !gamepad2.a) {robot.flyWheel.setPower(1);}
             else {robot.flyWheel.setPower(0);}
 
             //collection and transfer
