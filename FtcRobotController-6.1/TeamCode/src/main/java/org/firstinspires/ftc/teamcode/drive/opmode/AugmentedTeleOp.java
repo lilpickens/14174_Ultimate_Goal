@@ -127,13 +127,13 @@ public class AugmentedTeleOp extends LinearOpMode {
                         driveDirection = new Pose2d(
                                 -gamepad1.left_stick_y/2,
                                 -gamepad1.left_stick_x/2,
-                                (-(gamepad1.right_stick_x/2) + (gamepad1.left_stick_y * 0.1))
+                                ((-(gamepad1.right_stick_x/2)) - (gamepad1.left_stick_y * 0.05)) //left to much power
                         );
                     } else {
                         driveDirection = new Pose2d(
                                 -gamepad1.left_stick_y,
                                 -gamepad1.left_stick_x,
-                                (-gamepad1.right_stick_x + (gamepad1.left_stick_y * 0.1))
+                                (-gamepad1.right_stick_x - (gamepad1.left_stick_y * 0.08))
                         );
                     }
                     drive.setWeightedDrivePower(driveDirection);
