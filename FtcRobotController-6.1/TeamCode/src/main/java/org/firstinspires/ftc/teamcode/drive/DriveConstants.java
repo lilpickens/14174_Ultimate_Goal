@@ -32,7 +32,7 @@ public class DriveConstants {
      * from DriveVelocityPIDTuner.
      */
     public static final boolean RUN_USING_ENCODER = true;
-    public static PIDFCoefficients MOTOR_VELO_PID = new PIDFCoefficients(30, 0, 6,getMotorVelocityF(MAX_RPM / 60 * TICKS_PER_REV));
+    public static PIDFCoefficients MOTOR_VELO_PID = new PIDFCoefficients(45, 0, 15, 17 /*getMotorVelocityF(MAX_RPM / 60 * TICKS_PER_REV)*/);
 
     /*
      * These are physical constants that can be determined from your robot (including the track
@@ -42,8 +42,8 @@ public class DriveConstants {
      * angular distances although most angular parameters are wrapped in Math.toRadians() for
      * convenience. Make sure to exclude any gear ratio included in MOTOR_CONFIG from GEAR_RATIO.
      */
-    public static double WHEEL_RADIUS = 1.969; // in
-    public static double GEAR_RATIO = 1.28; // output (wheel) speed / input (motor) speed
+    public static double WHEEL_RADIUS = 1.969; // in //original was 1.969 //1.85
+    public static double GEAR_RATIO = 1.219; //1.28 // output (wheel) speed / input (motor) speed
     public static double TRACK_WIDTH = 14.58; // in
 
     /*
@@ -64,7 +64,7 @@ public class DriveConstants {
      * acceleration values are required, and the jerk values are optional (setting a jerk of 0.0
      * forces acceleration-limited profiling). All distance units are inches.
      */
-    public static double MAX_VEL = 30;
+    public static double MAX_VEL = 40;
     public static double MAX_ACCEL = 30;
     public static double MAX_ANG_VEL = Math.toRadians(180);
     public static double MAX_ANG_ACCEL = Math.toRadians(180);

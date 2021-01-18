@@ -29,21 +29,21 @@ public class UltGoal_Hardware
     public final double height = 26;
     public final double kickerIn = 0.5757;
     public final double kickerOut = 0.3;
-    public final double powerAngle = 0;
-    public final double aimMax = 0.706;
+    public final double powerAngle = 0; //unknown
+    public final double aimMax = 0.678; //0.706 was the old number, not sure how i got that
     public final double aimMin = 0.4848;
     public final double aimInit = 0.6;
     public final double collectAngle = -18.81;
     public final double lockDistance = 0.31; //0.17 is in, 0.85 is out
-    public final double kickOutDistance = 0;
+    public final double kickOutDistance = 0; //unknown
 
     public final double armUp = 0.684;
     public final double armDown = 0.138;
     public final double pinched = 0.411;
     public final double unPinched = 1;
 
-    public final double aimGoal = 0;
-    public final double aimPower = 0;
+    public final double aimGoal = 0.672;
+    public final double aimPower = 0.66;
     public final double aimCollect = 0.505;
 
     /* local OpMode members. */
