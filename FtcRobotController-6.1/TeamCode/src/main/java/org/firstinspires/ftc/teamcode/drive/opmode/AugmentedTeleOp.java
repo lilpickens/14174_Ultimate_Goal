@@ -309,8 +309,8 @@ public class AugmentedTeleOp extends LinearOpMode {
             else {robot.flyWheel.setPower(0);}
 
             //collection and transfer
-            if (gamepad2.a) {robot.collection.setPower(-1); robot.transfer.setPower(1);}//collection goes here -1
-            else if (gamepad2.x) {robot.collection.setPower(1); robot.transfer.setPower(-1);}
+            if (gamepad2.a) {robot.collection.setPower(-1); robot.transfer.setPower(-1);}
+            else if (gamepad2.x) {robot.collection.setPower(1); robot.transfer.setPower(1);}
             else {robot.collection.setPower(0); robot.transfer.setPower(0);}
 
         }
