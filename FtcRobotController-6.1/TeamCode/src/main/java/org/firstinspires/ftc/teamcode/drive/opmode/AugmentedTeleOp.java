@@ -236,6 +236,14 @@ public class AugmentedTeleOp extends LinearOpMode {
             if (gamepad2.y && !gamepad2.a) {robot.kicker.setPosition(robot.kickerOut);}
             else {robot.kicker.setPosition(robot.kickerIn);}
 
+            if (gamepad2.left_bumper) {
+                trim += 0.01;
+            } else if (gamepad2.x) {
+                trim -= 0.01;
+            } else if (gamepad2.dpad_left) {
+                trim = 0;
+            }
+
             //auto aiming
             /* I want to bring this back but right now localization isnt good enough for it
             if (gamepad2.dpad_left) {trim = 0;}
@@ -267,9 +275,9 @@ public class AugmentedTeleOp extends LinearOpMode {
             if (gamepad2.a) {
                 robot.aim.setPosition(robot.aimCollect);
             } else if (gamepad2.dpad_right) {
-                robot.aim.setPosition(robot.aimPower);
+                robot.aim.setPosition(robot.aimPower + trim);
             } else {
-                robot.aim.setPosition(robot.aimGoal);
+                robot.aim.setPosition(robot.aimGoal + trim);
             }
 
             if (Math.abs(gamepad2.left_stick_y) > 0.1) {
@@ -293,12 +301,12 @@ public class AugmentedTeleOp extends LinearOpMode {
 
             if (gamepad2.right_bumper) {
                 if (pinchState == 1 && pinchMove + 0.5 < getRuntime()) {
-                    robot.pincher.setPosition(0.39);
+                    robot.pincher.setPosition(robot.pinched);
                     pinchState = 0;
                     pinchMove = getRuntime();
                 }
                 if (pinchState == 0 && pinchMove + 0.5 < getRuntime()) {
-                    robot.pincher.setPosition(0.95);
+                    robot.pincher.setPosition(robot.unPinched);
                     pinchState = 1;
                     pinchMove = getRuntime();
                 }
@@ -310,7 +318,7 @@ public class AugmentedTeleOp extends LinearOpMode {
 
             //collection and transfer
             if (gamepad2.a) {robot.collection.setPower(-1); robot.transfer.setPower(-1);}
-            else if (gamepad2.x) {robot.collection.setPower(1); robot.transfer.setPower(1);}
+            else if (gamepad2.b) {robot.collection.setPower(1); robot.transfer.setPower(1);}
             else {robot.collection.setPower(0); robot.transfer.setPower(0);}
 
         }
