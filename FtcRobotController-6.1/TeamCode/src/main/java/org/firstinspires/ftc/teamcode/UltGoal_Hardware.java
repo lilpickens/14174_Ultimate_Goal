@@ -34,10 +34,10 @@ public class UltGoal_Hardware
     public final double collectAngle = -18.81;
     public final double lockDistance = 0.31; //0.17 is in, 0.85 is out
 
-    public final double armUp = 0.684;
-    public final double armDown = 0.138;
-    public final double pinched = 0.39; //0.411
-    public final double unPinched = 0.9; //0.95? //1
+    public final double armUp = 0.53;
+    public final double armDown = 0.22;
+    public final double pinched = 0.51; //0.411
+    public final double unPinched = 1; //0.95? //1
 
     public final double aimGoal = 0.672;
     public final double aimPower = 0.66;
@@ -81,7 +81,8 @@ public class UltGoal_Hardware
         arm.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
         //armOut.setPosition(armDown);
-        pincher.setPosition(unPinched);
+
+
 
 
 

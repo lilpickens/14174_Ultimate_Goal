@@ -60,10 +60,10 @@ public class Servo_Test extends LinearOpMode {
     // Declare OpMode members.
     private ElapsedTime runtime = new ElapsedTime();
     Servo Servo1;
-    //Servo Servo2;
+    Servo Servo2;
     //CRServo CRServo1;
-    Servo kicker;
-    DcMotor Flywheel;
+    //Servo kicker;
+    //DcMotor Flywheel;
 
     @Override
     public void runOpMode() {
@@ -75,9 +75,10 @@ public class Servo_Test extends LinearOpMode {
         // step (using the FTC Robot Controller app on the phone).
         //Servo1 = hardwareMap.servo.get("cap");
         //Servo1 = hardwareMap.servo.get("pincher");
-        kicker = hardwareMap.servo.get("kicker");
-        Flywheel = hardwareMap.get(DcMotor.class, "flywheel");
-        Servo1 = hardwareMap.servo.get("aim");
+        //kicker = hardwareMap.servo.get("kicker");
+        //Flywheel = hardwareMap.get(DcMotor.class, "flywheel");
+        Servo1 = hardwareMap.servo.get("pincher");
+        Servo2 = hardwareMap.servo.get("armOut");
         //Servo2 = hardwareMap.servo.get("pincher");
         //Servo2 = hardwareMap.servo.get("foundationL");
         //CRServo1 = hardwareMap.crservo.get("slide");
@@ -107,10 +108,18 @@ public class Servo_Test extends LinearOpMode {
                 telemetry.addData("Direction", Servo1.getDirection());
                 telemetry.update();
             }
-            if (gamepad1.right_trigger > 0.1) {
-                Flywheel.setPower(1);
-            } else {Flywheel.setPower(0);}
-            if (gamepad1.y) {kicker.setPosition(0.3);} else {kicker.setPosition(0.5757);}
+            if (gamepad1.x) {
+                Servo2.setPosition(Servo2.getPosition() + .0001);
+                telemetry.addData("Servo2 Position", Servo2.getPosition());
+                telemetry.addData("Direction", Servo2.getDirection());
+                telemetry.update();
+            }
+            if (gamepad1.y) {
+                Servo2.setPosition(Servo2.getPosition() - .0001);
+                telemetry.addData("Servo2 Position", Servo2.getPosition());
+                telemetry.addData("Direction", Servo2.getDirection());
+                telemetry.update();
+            }
 
             /*if(gamepad1.x) {
                 Servo2.setPosition(Servo2.getPosition() + .001);

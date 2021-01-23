@@ -96,6 +96,8 @@ public class AugmentedTeleOp extends LinearOpMode {
         drive.setPoseEstimate(PoseStorage.currentPose);
 
         robot.init(hardwareMap);
+        robot.pincher.setPosition(robot.pinched);
+        robot.armOut.setPosition(robot.armUp);
 
         while (!opModeIsActive() && !isStopRequested()) {
             telemetry.addData("Status:", "Waiting for start command.");
