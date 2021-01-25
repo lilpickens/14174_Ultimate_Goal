@@ -238,7 +238,7 @@ public class AugmentedTeleOp extends LinearOpMode {
             if (gamepad2.y && !gamepad2.a) {robot.kicker.setPosition(robot.kickerOut);}
             else {robot.kicker.setPosition(robot.kickerIn);}
 
-            if (gamepad2.left_bumper) {
+            if (gamepad2.left_trigger > 0.1) {
                 trim += 0.01;
             } else if (gamepad2.x) {
                 trim -= 0.01;
@@ -277,13 +277,13 @@ public class AugmentedTeleOp extends LinearOpMode {
             if (gamepad2.a) {
                 robot.aim.setPosition(robot.aimCollect);
             } else if (gamepad2.dpad_right) {
-                robot.aim.setPosition(robot.aimPower + trim);
+                robot.aim.setPosition(Range.clip(robot.aimPower + trim, robot.aimMin, robot.aimMax));
             } else {
-                robot.aim.setPosition(robot.aimGoal + trim);
+                robot.aim.setPosition(Range.clip(robot.aimGoal + trim, robot.aimMin, robot.aimMax));
             }
 
-            if (Math.abs(gamepad2.left_stick_y) > 0.1) {
-                robot.arm.setPower(gamepad2.left_stick_y);
+            if (Math.abs(gamepad2.right_stick_y) > 0.1) {
+                robot.arm.setPower(gamepad2.right_stick_y);
             } else {
                 robot.arm.setPower(0);
             }
@@ -302,12 +302,12 @@ public class AugmentedTeleOp extends LinearOpMode {
             }
 
             if (gamepad2.right_bumper) {
-                if (pinchState == 1 && pinchMove + 0.5 < getRuntime()) {
+                if (pinchState == 1 && (pinchMove + 0.5) < getRuntime()) {
                     robot.pincher.setPosition(robot.pinched);
                     pinchState = 0;
                     pinchMove = getRuntime();
                 }
-                if (pinchState == 0 && pinchMove + 0.5 < getRuntime()) {
+                if (pinchState == 0 && (pinchMove + 0.5) < getRuntime()) {
                     robot.pincher.setPosition(robot.unPinched);
                     pinchState = 1;
                     pinchMove = getRuntime();

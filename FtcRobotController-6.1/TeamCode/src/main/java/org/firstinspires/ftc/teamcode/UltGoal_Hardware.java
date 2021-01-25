@@ -37,7 +37,7 @@ public class UltGoal_Hardware
     public final double armUp = 0.53;
     public final double armDown = 0.22;
     public final double pinched = 0.51; //0.411
-    public final double unPinched = 1; //0.95? //1
+    public final double unPinched = 0.95; //0.95? //1 //KEEP AT 0.95! IT THROWS A TANTRUM IF ITS SET TO 1!
 
     public final double aimGoal = 0.672;
     public final double aimPower = 0.66;

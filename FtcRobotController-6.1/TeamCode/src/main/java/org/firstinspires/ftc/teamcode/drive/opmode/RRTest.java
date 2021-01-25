@@ -21,9 +21,6 @@ import org.firstinspires.ftc.teamcode.drive.SampleMecanumDrive;
 import java.util.List;
 import java.util.Vector;
 
-/*
- * This is an example of a more complex path to really test the tuning.
- */
 @Autonomous(name = "Blue_Auto", group = "14174")
 public class RRTest extends LinearOpMode {
     private ElapsedTime runtime = new ElapsedTime();
@@ -35,7 +32,6 @@ public class RRTest extends LinearOpMode {
 
     private static final String VUFORIA_KEY =
             "AQdreXP/////AAABmZt6Oecz+kEzpK0JGPmBsiNN7l/NAvoL0zpZPFQAslTHUcNYg++t82d9o6emZcSfRJM36o491JUmYS/5qdxxP235BssGslVIMSJCT7vNZ2iQW2pwj6Lxtw/oqvCLtgGRPxUyVSC1u5QHi+Siktg3e4g9rYzoQ2+kzv2chS8TnNooSoF6YgQh4FXqCYRizfbYkjVWtx/DtIigXy+TrXNn84yXbl66CnjNy2LFaOdBFrl315+A79dEYJ+Pl0b75dzncQcrt/aulSBllkA4f03FxeN3Ck1cx9twVFatjOCFxPok0OApMyo1kcARcPpemk1mqF2yf2zJORZxF0H+PcRkS2Sv92UpSEq/9v+dYpruj/Vr";
-    // Declare OpMode members.
 
     private VuforiaLocalizer vuforia;
     private TFObjectDetector tfod;
@@ -49,6 +45,7 @@ public class RRTest extends LinearOpMode {
         robot.init(hardwareMap);
 
         robot.pincher.setPosition(robot.pinched);
+        robot.armOut.setPosition(robot.armUp);
 
         initVuforia();
         initTfod();
@@ -62,7 +59,7 @@ public class RRTest extends LinearOpMode {
         telemetry.update();
 
         SampleMecanumDrive drive = new SampleMecanumDrive(hardwareMap);
-        Pose2d startPose = new Pose2d(-63, 23, Math.toRadians(0));
+        Pose2d startPose = new Pose2d(-63, 25, Math.toRadians(0));
         drive.setPoseEstimate(startPose);
         drive.update();
 
@@ -82,7 +79,7 @@ public class RRTest extends LinearOpMode {
                 .build();
          */
         Trajectory trajpark = drive.trajectoryBuilder(startPose)
-                .lineTo(new Vector2d(6, 50))
+                .lineTo(new Vector2d(6, 48))
                 .build();
 
         Trajectory traj0 = drive.trajectoryBuilder(startPose)
@@ -119,10 +116,17 @@ public class RRTest extends LinearOpMode {
                 .build();
          */
         Trajectory traj08 = drive.trajectoryBuilder(traj04.end())
-                .lineTo(new Vector2d(6, 50))
+                .lineTo(new Vector2d(8, 50))
                 .build();
 
         //SINGLE STACK TRAJECTORIES
+        Trajectory traj14 = drive.trajectoryBuilder(traj0.end())
+                .splineTo(new Vector2d(36, 18), Math.toRadians(0))
+                .build();
+        Trajectory traj15 = drive.trajectoryBuilder(traj14.end())
+                .lineTo(new Vector2d(8, 18))
+                .build();
+
         /*
         Trajectory traj14 = drive.trajectoryBuilder(traj3.end())
                 .splineTo(new Vector2d(30, 24), Math.toRadians(0))
@@ -167,6 +171,15 @@ public class RRTest extends LinearOpMode {
                 .build();
 
         //QUAD STACK TRAJECTORIES
+
+         */
+        Trajectory traj44 = drive.trajectoryBuilder(traj0.end())
+                .splineTo(new Vector2d(60, 48), Math.toRadians(0))
+                .build();
+        Trajectory traj45 = drive.trajectoryBuilder(traj44.end())
+                .lineTo(new Vector2d(8, 48))
+                .build();
+        /*
         Trajectory traj44 = drive.trajectoryBuilder(traj0.end())
                 .splineTo(new Vector2d(46, 47), Math.toRadians(0))
                 .build();
@@ -183,6 +196,8 @@ public class RRTest extends LinearOpMode {
         Trajectory traj48 = drive.trajectoryBuilder(traj47.end())
                 .lineTo(new Vector2d(6, 47))
                 .build();
+
+         */
 
         
         //new 0 STACK TRAJECTORY
@@ -293,7 +308,15 @@ public class RRTest extends LinearOpMode {
 
         }
         else if (ringState == 1) {
-            drive.followTrajectory(trajpark);
+            //drive.followTrajectory(trajpark);
+            drive.followTrajectory(traj0);
+            sleep(200);
+            drive.followTrajectory(traj14);
+            robot.pincher.setPosition(robot.unPinched);
+            sleep(500);
+            drive.followTrajectory(traj15);
+            PoseStorage.currentPose = drive.getPoseEstimate();
+            stop();
             /*
             drive.followTrajectory(traj0);
             sleep(200);
@@ -325,7 +348,15 @@ public class RRTest extends LinearOpMode {
              */
         }
         else if(ringState == 4) {
-            drive.followTrajectory(trajpark);
+            //drive.followTrajectory(trajpark);
+            drive.followTrajectory(traj0);
+            sleep(200);
+            drive.followTrajectory(traj44);
+            robot.pincher.setPosition(robot.unPinched);
+            sleep(500);
+            drive.followTrajectory(traj45);
+            PoseStorage.currentPose = drive.getPoseEstimate();
+            stop();
             /*
             drive.followTrajectory(traj0);
             sleep(200);
