@@ -96,6 +96,8 @@ public class AugmentedTeleOp extends LinearOpMode {
         drive.setPoseEstimate(PoseStorage.currentPose);
 
         robot.init(hardwareMap);
+        robot.pincher.setPosition(robot.pinched);
+        robot.armOut.setPosition(robot.armUp);
 
         while (!opModeIsActive() && !isStopRequested()) {
             telemetry.addData("Status:", "Waiting for start command.");
@@ -114,7 +116,10 @@ public class AugmentedTeleOp extends LinearOpMode {
             telemetry.addData("x", poseEstimate.getX());
             telemetry.addData("y", poseEstimate.getY());
             telemetry.addData("heading", poseEstimate.getHeading());
+            telemetry.addData("angle", angle);
+            telemetry.addData("servo", (angle/198)+robot.aimInit);
             telemetry.update();
+
 
             // We follow different logic based on whether we are in manual driver control or switch
             // control to the automatic mode
@@ -124,13 +129,13 @@ public class AugmentedTeleOp extends LinearOpMode {
                         driveDirection = new Pose2d(
                                 -gamepad1.left_stick_y/2,
                                 -gamepad1.left_stick_x/2,
-                                -gamepad1.right_stick_x/2
+                                ((-(gamepad1.right_stick_x/2)) - (gamepad1.left_stick_y * 0.05)) //left to much power
                         );
                     } else {
                         driveDirection = new Pose2d(
                                 -gamepad1.left_stick_y,
                                 -gamepad1.left_stick_x,
-                                -gamepad1.right_stick_x
+                                (-gamepad1.right_stick_x - (gamepad1.left_stick_y * 0.08))
                         );
                     }
                     drive.setWeightedDrivePower(driveDirection);
@@ -230,30 +235,52 @@ public class AugmentedTeleOp extends LinearOpMode {
             }
             
 
-            if (gamepad2.y) {robot.kicker.setPosition(robot.kickerOut);}
+            if (gamepad2.y && !gamepad2.a) {robot.kicker.setPosition(robot.kickerOut);}
             else {robot.kicker.setPosition(robot.kickerIn);}
 
+            if (gamepad2.left_trigger > 0.1) {
+                trim += 0.01;
+            } else if (gamepad2.x) {
+                trim -= 0.01;
+            } else if (gamepad2.dpad_left) {
+                trim = 0;
+            }
+
             //auto aiming
+            /* I want to bring this back but right now localization isnt good enough for it
             if (gamepad2.dpad_left) {trim = 0;}
 
-            if (gamepad2.dpad_up && trim < 180) {
-                //   robot.aim.setPosition(robot.aim.getPosition()+0.01);
-                   trim = trim+0.1;
-               }// else if (gamepad2.dpad_down) {robot.aim.setPosition(robot.aim.getPosition()-0.01);}
-   
-               if (gamepad2.dpad_down && trim > 0) {
-                   trim = trim-0.1;
-               }
+            if (gamepad2.y && trim < 180) {
+                   trim += 0.1;
+            } else if (gamepad2.x && trim > 0) {
+                   trim -= 0.1;
+            }
 
-            if (gamepad2.a) {angle = robot.collectAngle;}
+            if (gamepad2.a) {
+                angle = robot.collectAngle;
+            } else if (gamepad2.dpad_right) {
+                angle = robot.powerAngle;
+            } else {
+                angle = Range.clip(
+                        Math.toDegrees( //Changing the output of this from radians to degrees
+                                Math.atan( //Taking the inverse tangent of the height of the goal over the length to the goal.
+                                        robot.height / Math.sqrt( //pythagorian theorem to find the distance to the goal.
+                                                ((71 - poseEstimate.getX()) * (71 - poseEstimate.getX())) + ((36 - poseEstimate.getY()) * (36 - poseEstimate.getY()))
+                                        )
+                                )
+                        ) + trim, 0, 180);
+            };
 
-            if (!gamepad2.dpad_right && !gamepad2.a) {
-                angle = Range.clip(Math.toDegrees(Math.atan(robot.height / Math.sqrt(((71-poseEstimate.getX()) * (71-poseEstimate.getX())) + ((36-poseEstimate.getY()) * (36-poseEstimate.getY())))))+trim, 0, 180);
-            } else if (!gamepad2.a) {angle = robot.powerAngle;}
             robot.aim.setPosition(Range.clip((angle/198)+robot.aimInit, robot.aimMin, robot.aimMax));
-            telemetry.addData("angle", angle);
-            telemetry.addData("servo", (angle/198)+robot.aimInit);
-            telemetry.update();
+             */
+
+            if (gamepad2.a) {
+                robot.aim.setPosition(robot.aimCollect);
+            } else if (gamepad2.dpad_right) {
+                robot.aim.setPosition(Range.clip(robot.aimPower + trim, robot.aimMin, robot.aimMax));
+            } else {
+                robot.aim.setPosition(Range.clip(robot.aimGoal + trim, robot.aimMin, robot.aimMax));
+            }
 
             if (Math.abs(gamepad2.right_stick_y) > 0.1) {
                 robot.arm.setPower(gamepad2.right_stick_y);
@@ -274,36 +301,26 @@ public class AugmentedTeleOp extends LinearOpMode {
                 }
             }
 
-            /*
-            if (gamepad2.right_bumper && robot.pincher.getPosition() > robot.pinched) {
-                robot.pincher.setPosition(robot.pincher.getPosition() - 0.01);
-            }
-
-            if (gamepad2.left_trigger > 0.1 && robot.pincher.getPosition() < robot.unPinched) {
-                robot.pincher.setPosition(robot.pincher.getPosition() + 0.01);
-            }
-            */
-
             if (gamepad2.right_bumper) {
-                if (pinchState == 1 && pinchMove + 0.5 < getRuntime()) {
-                    robot.pincher.setPosition(0.39);
+                if (pinchState == 1 && (pinchMove + 0.5) < getRuntime()) {
+                    robot.pincher.setPosition(robot.pinched);
                     pinchState = 0;
                     pinchMove = getRuntime();
                 }
-                if (pinchState == 0 && pinchMove + 0.5 < getRuntime()) {
-                    robot.pincher.setPosition(0.95);
+                if (pinchState == 0 && (pinchMove + 0.5) < getRuntime()) {
+                    robot.pincher.setPosition(robot.unPinched);
                     pinchState = 1;
                     pinchMove = getRuntime();
                 }
             }
 
             //flywheel
-            if (gamepad2.right_trigger > 0.1) {robot.flyWheel.setPower(1);}
+            if (gamepad2.right_trigger > 0.1 && !gamepad2.a) {robot.flyWheel.setPower(1);}
             else {robot.flyWheel.setPower(0);}
 
             //collection and transfer
-            if (gamepad2.a) {robot.collection.setPower(-1); robot.transfer.setPower(1);}//collection goes here -1
-            else if (gamepad2.x) {robot.collection.setPower(1); robot.transfer.setPower(-1);}
+            if (gamepad2.a) {robot.collection.setPower(-1); robot.transfer.setPower(-1);}
+            else if (gamepad2.b) {robot.collection.setPower(1); robot.transfer.setPower(1);}
             else {robot.collection.setPower(0); robot.transfer.setPower(0);}
 
         }
