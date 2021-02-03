@@ -239,9 +239,10 @@ public class AugmentedTeleOp extends LinearOpMode {
             else {robot.kicker.setPosition(robot.kickerIn);}
 
             if (gamepad2.left_trigger > 0.1) {
-                trim += 0.01;
+                trim += 0.001;
             } else if (gamepad2.x) {
-                trim -= 0.01;
+                trim -= 0.001;
+                trim -= 0.001;
             } else if (gamepad2.dpad_left) {
                 trim = 0;
             }
@@ -319,9 +320,9 @@ public class AugmentedTeleOp extends LinearOpMode {
             else {robot.flyWheel.setPower(0);}
 
             //collection and transfer
-            if (gamepad2.a) {robot.collection.setPower(-1); robot.transfer.setPower(-1);}
-            else if (gamepad2.b) {robot.collection.setPower(1); robot.transfer.setPower(1);}
-            else {robot.collection.setPower(0); robot.transfer.setPower(0);}
+            if (gamepad2.a) {robot.collection.setPower(-1); robot.transfer.setPower(-1); robot.transferServo.setPower(0.7);}
+            else if (gamepad2.b) {robot.collection.setPower(1); robot.transfer.setPower(1); robot.transferServo.setPower(-0.7);}
+            else {robot.collection.setPower(0); robot.transfer.setPower(0); robot.transferServo.setPower(0);}
 
         }
     }

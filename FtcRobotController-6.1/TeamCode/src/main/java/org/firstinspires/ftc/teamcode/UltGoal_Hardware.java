@@ -22,6 +22,8 @@ public class UltGoal_Hardware
     public Servo pincher;
     public Servo armOut;
 
+    public CRServo transferServo;
+
 
     //DEFINE SERVOS
 
@@ -68,6 +70,8 @@ public class UltGoal_Hardware
         kicker = ahwMap.servo.get("kicker");
         pincher = ahwMap.servo.get("pincher");
         armOut = ahwMap.servo.get("armOut");
+
+        transferServo = ahwMap.crservo.get("transferServo");
 
         aim.setDirection(Servo.Direction.REVERSE);
 
