@@ -316,7 +316,9 @@ public class AugmentedTeleOp extends LinearOpMode {
             }
 
             //flywheel
-            if (gamepad2.right_trigger > 0.1 && !gamepad2.a) {robot.flyWheel.setPower(1);}
+            if (gamepad2.right_trigger > 0.1 && !gamepad2.a) {
+                if (!gamepad2.dpad_right) {robot.flyWheel.setPower(1);} else {robot.flyWheel.setPower(0.8);};
+            }
             else {robot.flyWheel.setPower(0);}
 
             //collection and transfer

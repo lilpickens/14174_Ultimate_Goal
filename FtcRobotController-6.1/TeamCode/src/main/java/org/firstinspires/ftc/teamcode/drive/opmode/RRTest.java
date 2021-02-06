@@ -46,6 +46,8 @@ public class RRTest extends LinearOpMode {
 
         robot.pincher.setPosition(robot.pinched);
         robot.armOut.setPosition(robot.armUp);
+        robot.kicker.setPosition(robot.kickerIn);
+        robot.aim.setPosition(robot.aimPower);
 
         initVuforia();
         initTfod();
@@ -67,40 +69,50 @@ public class RRTest extends LinearOpMode {
 
         if (isStopRequested()) return;
         //UNIVERSAL TRAJECTORIES
-        /*
-        Trajectory traj1 = drive.trajectoryBuilder(startPose)
-                .splineTo(new Vector2d(-15,20),Math.toRadians(0))
-                .build();
-        Trajectory traj2 = drive.trajectoryBuilder(traj1.end())
-                .strafeRight(7.5)
-                .build();
-        Trajectory traj3 = drive.trajectoryBuilder(traj2.end())
-                .strafeRight(7.5)
-                .build();
-         */
+
+
+
         Trajectory trajpark = drive.trajectoryBuilder(startPose)
                 .lineTo(new Vector2d(6, 48))
                 .build();
 
-        Trajectory traj0 = drive.trajectoryBuilder(startPose)
-                .splineToConstantHeading(new Vector2d(-40, 16), Math.toRadians(0))
+        //Trajectory traj0 = drive.trajectoryBuilder(startPose)
+        //        .splineToConstantHeading(new Vector2d(-40, 16), Math.toRadians(0))
+        //        .build();
+
+        Trajectory traj1 = drive.trajectoryBuilder(startPose /*traj0.end()*/)
+                .addDisplacementMarker(() -> {
+                    robot.flyWheel.setPower(0.8);
+                })
+                .splineTo(new Vector2d(-12,14),Math.toRadians(0))
+                //.splineToConstantHeading(new Vector2d(-40, 16), Math.toRadians(0))
                 .build();
-        /*
-        Trajectory traj1 = drive.trajectoryBuilder(traj0.end())
-                .splineTo(new Vector2d(-3,5),Math.toRadians(0))
-                .build();
-        /*
+
         Trajectory traj2 = drive.trajectoryBuilder(traj1.end())
-                .lineToConstantHeading(new Vector2d(-3, 12.5))
+                .addDisplacementMarker(() -> {
+                    robot.kicker.setPosition(robot.kickerIn);
+                })
+                .lineToConstantHeading(new Vector2d(-8, 21))
                 .build();
+
         Trajectory traj3 = drive.trajectoryBuilder(traj2.end())
-                .lineToConstantHeading(new Vector2d(-3, 20))
+                .addDisplacementMarker(() -> {
+                    robot.kicker.setPosition(robot.kickerIn);
+                })
+                .lineToConstantHeading(new Vector2d(-6, 31)) //24.75 //27.75 //29
                 .build();
-         */
+
 
         //NO RING TRAJECTORIES
-        Trajectory traj04 = drive.trajectoryBuilder(traj0.end())
-                .lineTo(new Vector2d(12, 50))
+        Trajectory traj04 = drive.trajectoryBuilder(traj3.end())
+                .addDisplacementMarker(() -> {
+                    robot.flyWheel.setPower(0);
+                    robot.kicker.setPosition(robot.kickerIn);
+                })
+                .lineTo(new Vector2d(24, 50))
+                .addDisplacementMarker(() -> {
+                    robot.armOut.setPosition(robot.armDown);
+                })
                 .build();
         /*
         Trajectory traj05 = drive.trajectoryBuilder(traj04.end())
@@ -116,15 +128,19 @@ public class RRTest extends LinearOpMode {
                 .build();
          */
         Trajectory traj08 = drive.trajectoryBuilder(traj04.end())
-                .lineTo(new Vector2d(8, 50))
+                .lineTo(new Vector2d(12, 50))
                 .build();
 
         //SINGLE STACK TRAJECTORIES
-        Trajectory traj14 = drive.trajectoryBuilder(traj0.end())
+        Trajectory traj14 = drive.trajectoryBuilder(traj3.end())
+                .addDisplacementMarker(() -> {
+                    robot.flyWheel.setPower(0);
+                    robot.kicker.setPosition(robot.kickerIn);
+                })
                 .splineTo(new Vector2d(36, 18), Math.toRadians(0))
                 .build();
         Trajectory traj15 = drive.trajectoryBuilder(traj14.end())
-                .lineTo(new Vector2d(8, 18))
+                .lineTo(new Vector2d(10, 18))
                 .build();
 
         /*
@@ -173,11 +189,15 @@ public class RRTest extends LinearOpMode {
         //QUAD STACK TRAJECTORIES
 
          */
-        Trajectory traj44 = drive.trajectoryBuilder(traj0.end())
+        Trajectory traj44 = drive.trajectoryBuilder(traj3.end())
+                .addDisplacementMarker(() -> {
+                    robot.flyWheel.setPower(0);
+                    robot.kicker.setPosition(robot.kickerIn);
+                })
                 .splineTo(new Vector2d(60, 48), Math.toRadians(0))
                 .build();
         Trajectory traj45 = drive.trajectoryBuilder(traj44.end())
-                .lineTo(new Vector2d(8, 48))
+                .lineTo(new Vector2d(10, 48))
                 .build();
         /*
         Trajectory traj44 = drive.trajectoryBuilder(traj0.end())
@@ -273,20 +293,32 @@ public class RRTest extends LinearOpMode {
             }
         }
 
-        robot.armOut.setPosition(robot.armDown);
+        tfod.deactivate();
 
         if (ringState == 0) {
-            drive.followTrajectory(traj0);
-            sleep(200);
+            drive.followTrajectory(traj1);
+            robot.kicker.setPosition(robot.kickerOut);
+            sleep(500);
+            drive.followTrajectory(traj2);
+            robot.kicker.setPosition(robot.kickerOut);
+            sleep(500);
+            drive.followTrajectory(traj3);
+            robot.kicker.setPosition(robot.kickerOut);
+            sleep(500);
+            ///drive.followTrajectory(traj0);
+            //sleep(200);
             //drive.followTrajectory(traj1);
             //sleep(200);
             //drive.followTrajectory(traj2);
             //sleep(200);
             //drive.followTrajectory(traj3);
             //sleep(200);
+
             drive.followTrajectory(traj04);
             robot.pincher.setPosition(robot.unPinched);
             sleep(500);
+
+
             //drive.followTrajectory(traj05);
             //drive.followTrajectory(traj06);
             //sleep(200);
@@ -309,8 +341,16 @@ public class RRTest extends LinearOpMode {
         }
         else if (ringState == 1) {
             //drive.followTrajectory(trajpark);
-            drive.followTrajectory(traj0);
-            sleep(200);
+            drive.followTrajectory(traj1);
+            robot.kicker.setPosition(robot.kickerOut);
+            sleep(500);
+            drive.followTrajectory(traj2);
+            robot.kicker.setPosition(robot.kickerOut);
+            sleep(500);
+            drive.followTrajectory(traj3);
+            robot.kicker.setPosition(robot.kickerOut);
+            sleep(500);
+            robot.armOut.setPosition(robot.armDown);
             drive.followTrajectory(traj14);
             robot.pincher.setPosition(robot.unPinched);
             sleep(500);
@@ -349,8 +389,16 @@ public class RRTest extends LinearOpMode {
         }
         else if(ringState == 4) {
             //drive.followTrajectory(trajpark);
-            drive.followTrajectory(traj0);
-            sleep(200);
+            drive.followTrajectory(traj1);
+            robot.kicker.setPosition(robot.kickerOut);
+            sleep(500);
+            drive.followTrajectory(traj2);
+            robot.kicker.setPosition(robot.kickerOut);
+            sleep(500);
+            drive.followTrajectory(traj3);
+            robot.kicker.setPosition(robot.kickerOut);
+            sleep(500);
+            robot.armOut.setPosition(robot.armDown);
             drive.followTrajectory(traj44);
             robot.pincher.setPosition(robot.unPinched);
             sleep(500);
