@@ -78,7 +78,7 @@ public class RRTest extends LinearOpMode {
 
         Trajectory traj1 = drive.trajectoryBuilder(startPose /*traj0.end()*/)
                 .addDisplacementMarker(() -> {
-                    robot.flyWheel.setPower(0.79 * (13/drive.batteryVoltageSensor.getVoltage()));
+                    robot.flyWheel.setPower(0.79 * ((12.9/drive.batteryVoltageSensor.getVoltage())));
                 })
                 .splineToLinearHeading(new Pose2d(-11,14, Math.toRadians(-1)), Math.toRadians(0))
                 .addDisplacementMarker(() -> {
@@ -110,6 +110,7 @@ public class RRTest extends LinearOpMode {
         Trajectory traj04 = drive.trajectoryBuilder(traj3.end())
                 .addDisplacementMarker(() -> {
                     robot.flyWheel.setPower(0);
+
                     robot.kicker.setPosition(robot.kickerIn);
                 })
                 .lineToLinearHeading(new Pose2d(18, 54, Math.toRadians(0)))
@@ -119,11 +120,11 @@ public class RRTest extends LinearOpMode {
                 })
                 .build();
 
-        Trajectory traj05 = drive.trajectoryBuilder(traj04.end())
+        Trajectory traj05 = drive.trajectoryBuilder(traj04.end(), true)
                 .addDisplacementMarker(() -> {
                     robot.armOut.setPosition(robot.armUp);
                 })
-                .splineToConstantHeading(new Vector2d(-50, 36), Math.toRadians(90))
+                .splineToLinearHeading(new Pose2d(-53, 33, Math.toRadians(0)), Math.toRadians(90))
                 .addDisplacementMarker(() -> {
                     robot.armOut.setPosition(robot.armDown);
                     robot.pincher.setPosition(robot.unPinched);
@@ -131,17 +132,18 @@ public class RRTest extends LinearOpMode {
                 .build();
 
         Trajectory traj06 = drive.trajectoryBuilder(traj05.end())
-                .addDisplacementMarker(3, () -> {
+                .addDisplacementMarker(4, () -> {
                     robot.pincher.setPosition(robot.pinched);
                 })
-                .splineToConstantHeading(new Vector2d(16, 50), Math.toRadians(0))
+                .splineToConstantHeading(new Vector2d(12, 48), Math.toRadians(0))
                 .addDisplacementMarker(() -> {
                     robot.pincher.setPosition(robot.unPinched);
                 })
                 .build();
 
         Trajectory traj0park = drive.trajectoryBuilder(traj06.end())
-                .lineTo(new Vector2d(12, 50))
+                
+                .lineTo(new Vector2d(12, 30))
                 .build();
 
         //SINGLE STACK TRAJECTORIES
@@ -310,18 +312,13 @@ public class RRTest extends LinearOpMode {
 
         if (ringState == 0) {
             drive.followTrajectory(traj1);
-            //robot.kicker.setPosition(robot.kickerOut);
             sleep(500);
             drive.followTrajectory(traj2);
-            //robot.kicker.setPosition(robot.kickerOut);
             sleep(500);
             drive.followTrajectory(traj3);
-            //robot.kicker.setPosition(robot.kickerOut);
             sleep(500);
             drive.followTrajectory(traj04);
-            //robot.pincher.setPosition(robot.unPinched);
             sleep(500);
-            //robot.armOut.setPosition(robot.armUp);
             drive.followTrajectory(traj05);
             sleep(500);
             drive.followTrajectory(traj06);
@@ -381,13 +378,13 @@ public class RRTest extends LinearOpMode {
         else if(ringState == 4) {
             //drive.followTrajectory(trajpark);
             drive.followTrajectory(traj1);
-            robot.kicker.setPosition(robot.kickerOut);
+            //robot.kicker.setPosition(robot.kickerOut);
             sleep(500);
             drive.followTrajectory(traj2);
-            robot.kicker.setPosition(robot.kickerOut);
+            //robot.kicker.setPosition(robot.kickerOut);
             sleep(500);
             drive.followTrajectory(traj3);
-            robot.kicker.setPosition(robot.kickerOut);
+            //robot.kicker.setPosition(robot.kickerOut);
             sleep(500);
             robot.armOut.setPosition(robot.armDown);
             drive.followTrajectory(traj44);
