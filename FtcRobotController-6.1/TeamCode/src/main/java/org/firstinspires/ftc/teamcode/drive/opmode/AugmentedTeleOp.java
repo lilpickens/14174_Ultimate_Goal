@@ -86,7 +86,6 @@ public class AugmentedTeleOp extends LinearOpMode {
         headingController.setInputBounds(-Math.PI, Math.PI);
         Pose2d driveDirection = new Pose2d();
 
-
         // We want to turn off velocity control for teleop
         // Velocity control per wheel is not necessary outside of motion profiled auto
         drive.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
@@ -126,6 +125,8 @@ public class AugmentedTeleOp extends LinearOpMode {
             switch (currentMode) {
                 case DRIVER_CONTROL:
                     if (gamepad1.right_trigger > 0.1) {
+
+
                         driveDirection = new Pose2d(
                                 -gamepad1.left_stick_y/2,
                                 -gamepad1.left_stick_x/2,
@@ -317,7 +318,7 @@ public class AugmentedTeleOp extends LinearOpMode {
 
             //flywheel
             if (gamepad2.right_trigger > 0.1 && !gamepad2.a) {
-                if (!gamepad2.dpad_right) {robot.flyWheel.setPower(0.97);} else {robot.flyWheel.setPower(0.79);};
+                if (!gamepad2.dpad_right) {robot.flyWheel.setPower(0.95 * (12.6/drive.batteryVoltageSensor.getVoltage()));} else {robot.flyWheel.setPower(0.79 * (12.9/drive.batteryVoltageSensor.getVoltage()));};
             } else if (gamepad2.a) {
                 robot.flyWheel.setPower(-0.1);
             } else {robot.flyWheel.setPower(0);};

@@ -52,8 +52,8 @@ public class DriveConstants {
      * motor encoders or have elected not to use them for velocity control, these values should be
      * empirically tuned.
      */
-    public static double kV = 1.0 / rpmToVelocity(MAX_RPM);
-    public static double kA = 0;
+    public static double kV = (1.0 / rpmToVelocity(MAX_RPM)); //+0.005;
+    public static double kA = 0; //.0025;
     public static double kStatic = 0;
 
     /*
@@ -64,8 +64,8 @@ public class DriveConstants {
      * acceleration values are required, and the jerk values are optional (setting a jerk of 0.0
      * forces acceleration-limited profiling). All distance units are inches.
      */
-    public static double MAX_VEL = 40;
-    public static double MAX_ACCEL = 28;
+    public static double MAX_VEL = 35;
+    public static double MAX_ACCEL = 25;
     public static double MAX_ANG_VEL = Math.toRadians(180);
     public static double MAX_ANG_ACCEL = Math.toRadians(180);
 
