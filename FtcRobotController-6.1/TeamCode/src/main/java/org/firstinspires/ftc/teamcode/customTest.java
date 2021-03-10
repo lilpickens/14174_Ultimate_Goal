@@ -115,19 +115,36 @@ public class customTest extends LinearOpMode {
       double position = robot.back_right.getCurrentPosition();
       final double target = position + distance;
       double distanceToTarget = target - position;
-      double percentToTarget = distanceToTarget/Math.abs(distance);
+      double percentToTarget = distanceToTarget/distance;
       double speed = 0;
       double[] wheelSpeed = new double[4]; //fl, fr, bl, br
       final double heading = getAbsoluteHeading();
-      double turnSpeed = ((heading - getAbsoluteHeading())/20);
+      double rotation = ((heading - getAbsoluteHeading())/20);
+      //Y is forward/backward       X is side to side
+      double Dy = distanceToTarget * Math.cos(Math.toRadians(strafeHeading));
+      double Dx = distanceToTarget * Math.sin(Math.toRadians(strafeHeading));
+      double Vy = Dy/(Dx+Dy);
+      double Vx = Dx/(Dx+Dy);
+      double 
 
       while (Math.abs(distanceToTarget) > error && !isStopRequested() && opModeIsActive) {
         position = robot.back_right.getCurrentPosition();
         distanceToTarget = target - position;
         percentToTarget = distanceToTarget/Math.abs(distance);
-        turnSpeed = ((heading - getAbsoluteHeading())/20);
+        rotation = ((heading - getAbsoluteHeading())/20);
+        speed = ((-((percentToTarget-1)*(percentToTarget-1)*(percentToTarget-1)*(percentToTarget-1))+1)*speedMod)*0.9;
+        Dy = distanceToTarget * Math.cos(Math.toRadians(strafeHeading));
+        Dx = distanceToTarget * Math.sin(Math.toRadians(strafeHeading));
+        Vy = Dy/(Dx+Dy);
+        Vx = Dx/(Dx+Dy);
 
-
+        wheelSpeed = [(Vy+Vx-rotation)*speed, 
+                     (Vy-Vx+rotation)*speed,
+                     (Vy-Vx-rotation)*speed,
+                     (Vy+Vx+rotation)*speed
+                     ];
+          
+        
       }
     };
 
