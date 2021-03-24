@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.drive.opmode;
+package org.firstinspires.ftc.teamcode.drive.autos;
 
 import com.acmerobotics.roadrunner.geometry.Pose2d;
 import com.acmerobotics.roadrunner.geometry.Vector2d;
@@ -14,6 +14,7 @@ import org.firstinspires.ftc.robotcore.external.tfod.Recognition;
 import org.firstinspires.ftc.robotcore.external.tfod.TFObjectDetector;
 import org.firstinspires.ftc.teamcode.UltGoal_Hardware;
 import org.firstinspires.ftc.teamcode.drive.SampleMecanumDrive;
+import org.firstinspires.ftc.teamcode.drive.opmode.PoseStorage;
 
 import java.util.List;
 import java.util.Vector;
@@ -77,27 +78,31 @@ public class blueOuter extends LinearOpMode {
 
         //NO RING TRAJECTORIES
         Trajectory traj01 = drive.trajectoryBuilder(startPose)
-                .lineTo(new Vector2d(14, 48.5))
+                .lineToSplineHeading(new Pose2d(-34, 55, Math.toRadians(0))) //move towards the outside of the field to avoid the other robot
+                .splineToSplineHeading(new Pose2d(-3, 55, Math.toRadians(-90)), Math.toRadians(0)) //move forward and spin around to drop off the wobble goal
                 .addDisplacementMarker(() -> {
-                    robot.armOut.setPosition(robot.armDown);
+                    robot.armOut.setPosition(robot.armDown); //drop the wobble goal arm
                 })
                 .build();
         //robot.pincher.setPosition(robot.unPinched);
 
-        Trajectory traj02 = drive.trajectoryBuilder(traj01.end())
-                .addDisplacementMarker(3, () -> {
+        Trajectory traj02 = drive.trajectoryBuilder(traj01.end(), true)
+                .addDisplacementMarker(1, () -> {
                     robot.armOut.setPosition(robot.armUp);
-                    robot.pincher.setPosition(robot.pinched);
                 })
-                .lineTo(new Vector2d(-55, 48))
+                .addDisplacementMarker(40, () -> {
+                    robot.flyWheel.setPower(0.95);
+                })
+                .splineToLinearHeading(new Pose2d(-55, 55, Math.toRadians(0)), Math.toRadians(0))
                 .build();
 
         Trajectory traj03 = drive.trajectoryBuilder(traj02.end())
                 .addDisplacementMarker(8, () -> {
                     robot.flyWheel.setPower(0.97);
                 })
-                .lineTo(new Vector2d(0, 36))
+                .splineToLinearHeading(new Pose2d(-6, 55, Math.toRadians(-15)), Math.toRadians(0)) //move behind the white line and shoot for the white
                 .build();
+
         //robot.kicker.setPosition(robot.kickerOut);
         //sleep(500);
         //robot.kicker.setPosition(robot.kickerIn);
@@ -109,10 +114,95 @@ public class blueOuter extends LinearOpMode {
         //robot.kicker.setPosition(robot.kickerOut);
         //sleep(500);
         //robot.kicker.setPosition(robot.kickerIn);
+
+        Trajectory traj04 = drive.trajectoryBuilder(traj03.end())
+                .addDisplacementMarker(() -> {
+                    robot.flyWheel.setPower(0);
+                })
+                .lineTo(new Vector2d(14, 45))
+                .build();
 
         //SINGLE STACK TRAJECTORIES
 
+        Trajectory traj11 = drive.trajectoryBuilder(startPose)
+                .lineToSplineHeading(new Pose2d(-34, 55, Math.toRadians(0))) //move towards the outside of the field to avoid the other robot
+                .splineToSplineHeading(new Pose2d(40, 55, Math.toRadians(180)), Math.toRadians(0)) //move forward and spin around to drop off the wobble goal
+                .addDisplacementMarker(() -> {
+                    robot.armOut.setPosition(robot.armDown); //drop the wobble goal arm
+                })
+                .build();
+        //robot.pincher.setPosition(robot.unPinched);
+
+        Trajectory traj12 = drive.trajectoryBuilder(traj11.end(),  true) //the robot will be driving backwards
+                .addDisplacementMarker(1, () -> {
+                    robot.armOut.setPosition(robot.armUp);
+                })
+                .addDisplacementMarker(40, () -> {
+                    robot.flyWheel.setPower(0.95);
+                })
+                .splineToLinearHeading(new Pose2d(-6, 55, Math.toRadians(-15)), Math.toRadians(0)) //move behind the white line and shoot for the white
+                .build();
+
+        //robot.kicker.setPosition(robot.kickOut);
+        //sleep(500);
+        //robot.kicker.setPosition(robot.kickIn);
+        //sleep(500);
+        //robot.kicker.setPosition(robot.kickOut);
+        //sleep(500);
+        //robot.kicker.setPosition(robot.kickIn);
+        //sleep(500);
+        //robot.kicker.setPosition(robot.kickOut);
+        //sleep(500);
+        //robot.kicker.setPosition(robot.kickIn);
+        //sleep(500);
+
+        Trajectory traj13 = drive.trajectoryBuilder(traj12.end())
+                .addDisplacementMarker(() -> {
+                    robot.flyWheel.setPower(0);
+                })
+                .lineToLinearHeading(new Pose2d(14,  55, Math.toRadians(0))) //park on white line
+                .build();
+
         //QUAD STACK TRAJECTORIES
+        Trajectory traj41 = drive.trajectoryBuilder(startPose)
+                .lineToSplineHeading(new Pose2d(-34, 55, Math.toRadians(0))) //move towards the outside of the field to avoid the other robot
+                .splineToSplineHeading(new Pose2d(51, 55, Math.toRadians(-90)), Math.toRadians(0)) //move forward and spin around to drop off the wobble goal
+                .addDisplacementMarker(() -> {
+                    robot.armOut.setPosition(robot.armDown); //drop the wobble goal arm
+                })
+                .build();
+        //robot.pincher.setPosition(robot.unPinched);
+
+        Trajectory traj42 = drive.trajectoryBuilder(traj41.end(),  true) //the robot will be driving backwards
+                .addDisplacementMarker(1, () -> {
+                    robot.armOut.setPosition(robot.armUp);
+                })
+                .addDisplacementMarker(40, () -> {
+                    robot.flyWheel.setPower(0.95);
+                })
+                //.splineTo(new Vector2d(0, 0), Math.toRadians(0)) //move toward blue wall
+                .splineToLinearHeading(new Pose2d(-6, 55, Math.toRadians(-15)), Math.toRadians(0)) //move behind the white line and shoot for the white
+                .build();
+
+        //robot.kicker.setPosition(robot.kickOut);
+        //sleep(500);
+        //robot.kicker.setPosition(robot.kickIn);
+        //sleep(500);
+        //robot.kicker.setPosition(robot.kickOut);
+        //sleep(500);
+        //robot.kicker.setPosition(robot.kickIn);
+        //sleep(500);
+        //robot.kicker.setPosition(robot.kickOut);
+        //sleep(500);
+        //robot.kicker.setPosition(robot.kickIn);
+        //sleep(500);
+
+        Trajectory traj43 = drive.trajectoryBuilder(traj42.end())
+                .addDisplacementMarker(() -> {
+                    robot.flyWheel.setPower(0);
+                })
+                .lineToLinearHeading(new Pose2d(14,  55, Math.toRadians(0))) //park on white line
+                .build();
 
 
         if (tfod != null) {
@@ -157,17 +247,66 @@ public class blueOuter extends LinearOpMode {
         tfod.deactivate();
 
         if (ringState == 0) {
-
+            drive.followTrajectory(traj01);
+            robot.pincher.setPosition(robot.unPinched);
+            sleep(500);
+            drive.followTrajectory(traj02);
+            sleep(5000);
+            drive.followTrajectory(traj03);
+            robot.kicker.setPosition(robot.kickerOut);
+            sleep(500);
+            robot.kicker.setPosition(robot.kickerIn);
+            sleep(500);
+            robot.kicker.setPosition(robot.kickerOut);
+            sleep(500);
+            robot.kicker.setPosition(robot.kickerIn);
+            sleep(500);
+            robot.kicker.setPosition(robot.kickerOut);
+            sleep(500);
+            robot.kicker.setPosition(robot.kickerIn);
+            drive.followTrajectory(traj04);
             PoseStorage.currentPose = drive.getPoseEstimate();
             stop();
         }
         else if (ringState == 1) {
-
+            drive.followTrajectory(traj11);
+            robot.pincher.setPosition(robot.unPinched);
+            sleep(500);
+            drive.followTrajectory(traj12);
+            robot.kicker.setPosition(robot.kickerOut);
+            sleep(500);
+            robot.kicker.setPosition(robot.kickerIn);
+            sleep(500);
+            robot.kicker.setPosition(robot.kickerOut);
+            sleep(500);
+            robot.kicker.setPosition(robot.kickerIn);
+            sleep(500);
+            robot.kicker.setPosition(robot.kickerOut);
+            sleep(500);
+            robot.kicker.setPosition(robot.kickerIn);
+            sleep(500);
+            drive.followTrajectory(traj13);
             PoseStorage.currentPose = drive.getPoseEstimate();
             stop();
         }
         else if(ringState == 4) {
-
+            drive.followTrajectory(traj41);
+            robot.pincher.setPosition(robot.unPinched);
+            sleep(500);
+            drive.followTrajectory(traj42);
+            robot.kicker.setPosition(robot.kickerOut);
+            sleep(500);
+            robot.kicker.setPosition(robot.kickerIn);
+            sleep(500);
+            robot.kicker.setPosition(robot.kickerOut);
+            sleep(500);
+            robot.kicker.setPosition(robot.kickerIn);
+            sleep(500);
+            robot.kicker.setPosition(robot.kickerOut);
+            sleep(500);
+            robot.kicker.setPosition(robot.kickerIn);
+            sleep(500);
+            drive.followTrajectory(traj43);
             PoseStorage.currentPose = drive.getPoseEstimate();
             stop();
         }
