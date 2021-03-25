@@ -93,7 +93,7 @@ public class UltGoal_Hardware
         //robot.init(hardwareMap);
 
         // Define all Servos
-        aim.setPosition(aimInit);
+        //aim.setPosition(aimInit);
 
         //Inititialize Servos
 
