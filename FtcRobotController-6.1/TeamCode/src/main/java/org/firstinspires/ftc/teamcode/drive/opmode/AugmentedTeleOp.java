@@ -103,6 +103,7 @@ public class AugmentedTeleOp extends LinearOpMode {
 
         robot.pincher.setPosition(robot.pinched);
         robot.armOut.setPosition(robot.armUp);
+        robot.aim.setPosition(robot.aimInit);
 
         while (opModeIsActive() && !isStopRequested()) {
             // Update the drive class
