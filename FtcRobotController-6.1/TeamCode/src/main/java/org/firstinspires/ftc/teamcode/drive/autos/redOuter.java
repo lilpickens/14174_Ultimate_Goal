@@ -125,7 +125,7 @@ public class redOuter extends LinearOpMode {
 
         Trajectory traj11 = drive.trajectoryBuilder(startPose)
                 .lineToSplineHeading(new Pose2d(-34, -55, Math.toRadians(0))) //move towards the outside of the field to avoid the other robot
-                .splineToSplineHeading(new Pose2d(40, -55, Math.toRadians(0)), Math.toRadians(0)) //move forward and spin around to drop off the wobble goal
+                .splineToSplineHeading(new Pose2d(38, -55, Math.toRadians(0)), Math.toRadians(0)) //move forward and spin around to drop off the wobble goal
                 .addDisplacementMarker(() -> {
                     robot.armOut.setPosition(robot.armDown); //drop the wobble goal arm
                 })
@@ -139,7 +139,7 @@ public class redOuter extends LinearOpMode {
                 .addDisplacementMarker(40, () -> {
                     robot.flyWheel.setPower(0.95);
                 })
-                .splineToLinearHeading(new Pose2d(-6, -55, Math.toRadians(-15)), Math.toRadians(0)) //move behind the white line and shoot for the white
+                .splineToLinearHeading(new Pose2d(-6, -55, Math.toRadians(15)), Math.toRadians(0)) //move behind the white line and shoot for the white
                 .build();
 
         //robot.kicker.setPosition(robot.kickOut);
@@ -165,7 +165,7 @@ public class redOuter extends LinearOpMode {
         //QUAD STACK TRAJECTORIES
         Trajectory traj41 = drive.trajectoryBuilder(startPose)
                 .lineToSplineHeading(new Pose2d(-34, -55, Math.toRadians(0))) //move towards the outside of the field to avoid the other robot
-                .splineToSplineHeading(new Pose2d(51, -55, Math.toRadians(-90)), Math.toRadians(0)) //move forward and spin around to drop off the wobble goal
+                .splineToSplineHeading(new Pose2d(49, -55, Math.toRadians(-90)), Math.toRadians(0)) //move forward and spin around to drop off the wobble goal
                 .addDisplacementMarker(() -> {
                     robot.armOut.setPosition(robot.armDown); //drop the wobble goal arm
                 })
