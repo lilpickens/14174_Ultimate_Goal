@@ -21,6 +21,7 @@ public class UltGoal_Hardware
     public Servo aim;
     public Servo pincher;
     public Servo armOut;
+    public Servo camServo;
 
     public CRServo transferServo;
 
@@ -44,6 +45,9 @@ public class UltGoal_Hardware
     public final double aimGoal = 0.672;
     public final double aimPower = 0.66;
     public final double aimCollect = 0.505;
+
+    public final double camRight = 0.487;
+    public final double camLeft = 0.333;
 
     /* local OpMode members. */
     HardwareMap hwMap =  null;
@@ -70,6 +74,7 @@ public class UltGoal_Hardware
         kicker = ahwMap.servo.get("kicker");
         pincher = ahwMap.servo.get("pincher");
         armOut = ahwMap.servo.get("armOut");
+        camServo = ahwMap.servo.get("camServo");
 
         transferServo = ahwMap.crservo.get("transferServo");
 

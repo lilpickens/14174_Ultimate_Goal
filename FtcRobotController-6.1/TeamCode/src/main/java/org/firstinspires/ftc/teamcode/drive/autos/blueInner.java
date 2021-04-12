@@ -6,6 +6,7 @@ import com.acmerobotics.roadrunner.trajectory.Trajectory;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.util.ElapsedTime;
+import com.qualcomm.robotcore.util.Range;
 
 import org.firstinspires.ftc.robotcore.external.ClassFactory;
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
@@ -44,7 +45,8 @@ public class blueInner extends LinearOpMode {
         robot.pincher.setPosition(robot.pinched);
         robot.armOut.setPosition(robot.armUp);
         robot.kicker.setPosition(robot.kickerIn);
-        robot.aim.setPosition(robot.aimPower + 0.02);
+        robot.aim.setPosition(robot.aimPower + 0.2);
+        robot.camServo.setPosition(robot.camLeft);
 
         initVuforia();
         initTfod();
@@ -75,7 +77,7 @@ public class blueInner extends LinearOpMode {
 
         Trajectory traj1 = drive.trajectoryBuilder(startPose /*traj0.end()*/)
                 .addDisplacementMarker(() -> {
-                    robot.flyWheel.setPower(0.82 * (13/drive.batteryVoltageSensor.getVoltage()));
+                    robot.flyWheel.setPower(Range.clip((0.82 * (13/drive.batteryVoltageSensor.getVoltage())), -1, 1));
                 })
                 .splineToLinearHeading(new Pose2d(-11,14, Math.toRadians(-1)), Math.toRadians(0))
                 .addDisplacementMarker(() -> {

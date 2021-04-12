@@ -40,6 +40,11 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 import com.qualcomm.robotcore.util.Range;
 import com.qualcomm.robotcore.hardware.CRServo;
 
+import org.firstinspires.ftc.robotcore.external.ClassFactory;
+import org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocalizer;
+import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
+import org.firstinspires.ftc.robotcore.external.tfod.TFObjectDetector;
+import org.firstinspires.ftc.robotcore.external.tfod.Recognition;
 
 /**
  * This file contains an minimal example of a Linear "OpMode". An OpMode is a 'program' that runs in either
@@ -55,18 +60,37 @@ import com.qualcomm.robotcore.hardware.CRServo;
  */
 
 @Autonomous(name="Servo Test", group="14174")
-//@Disabled
+@Disabled
 public class Servo_Test extends LinearOpMode {
     // Declare OpMode members.
     private ElapsedTime runtime = new ElapsedTime();
     Servo Servo1;
-    Servo Servo2;
+    //Servo Servo2;
     //CRServo CRServo1;
     //Servo kicker;
     //DcMotor Flywheel;
+    private static final String TFOD_MODEL_ASSET = "UltimateGoal.tflite";
+    private static final String LABEL_FIRST_ELEMENT = "Quad";
+    private static final String LABEL_SECOND_ELEMENT = "Single";
+
+    UltGoal_Hardware robot = new UltGoal_Hardware();
+
+    private static final String VUFORIA_KEY =
+            "AQdreXP/////AAABmZt6Oecz+kEzpK0JGPmBsiNN7l/NAvoL0zpZPFQAslTHUcNYg++t82d9o6emZcSfRJM36o491JUmYS/5qdxxP235BssGslVIMSJCT7vNZ2iQW2pwj6Lxtw/oqvCLtgGRPxUyVSC1u5QHi+Siktg3e4g9rYzoQ2+kzv2chS8TnNooSoF6YgQh4FXqCYRizfbYkjVWtx/DtIigXy+TrXNn84yXbl66CnjNy2LFaOdBFrl315+A79dEYJ+Pl0b75dzncQcrt/aulSBllkA4f03FxeN3Ck1cx9twVFatjOCFxPok0OApMyo1kcARcPpemk1mqF2yf2zJORZxF0H+PcRkS2Sv92UpSEq/9v+dYpruj/Vr";
+
+    private VuforiaLocalizer vuforia;
+    private TFObjectDetector tfod;
 
     @Override
     public void runOpMode() {
+        initVuforia();
+        initTfod();
+
+        if (tfod != null) {
+            tfod.activate();
+            tfod.setZoom(2.5, 1);
+        }
+
         telemetry.addData("Status", "Initialized");
         telemetry.update();
 
@@ -77,8 +101,8 @@ public class Servo_Test extends LinearOpMode {
         //Servo1 = hardwareMap.servo.get("pincher");
         //kicker = hardwareMap.servo.get("kicker");
         //Flywheel = hardwareMap.get(DcMotor.class, "flywheel");
-        Servo1 = hardwareMap.servo.get("pincher");
-        Servo2 = hardwareMap.servo.get("armOut");
+        Servo1 = hardwareMap.servo.get("camServo");
+        //Servo2 = hardwareMap.servo.get("armOut");
         //Servo2 = hardwareMap.servo.get("pincher");
         //Servo2 = hardwareMap.servo.get("foundationL");
         //CRServo1 = hardwareMap.crservo.get("slide");
@@ -89,7 +113,7 @@ public class Servo_Test extends LinearOpMode {
         // Wait for the game to start (driver presses PLAY)
         waitForStart();
         runtime.reset();
-        //Servo2.setDirection(Servo.Direction.FORWARD);
+        //Servo1.setDirection(Servo.Direction.FORWARD);
         //Servo1.setDirection(Servo.Direction.REVERSE);
         Servo1.setPosition(0.5);
 
@@ -108,6 +132,7 @@ public class Servo_Test extends LinearOpMode {
                 telemetry.addData("Direction", Servo1.getDirection());
                 telemetry.update();
             }
+            /*
             if (gamepad1.x) {
                 Servo2.setPosition(Servo2.getPosition() + .0001);
                 telemetry.addData("Servo2 Position", Servo2.getPosition());
@@ -120,7 +145,7 @@ public class Servo_Test extends LinearOpMode {
                 telemetry.addData("Direction", Servo2.getDirection());
                 telemetry.update();
             }
-
+            */
             /*if(gamepad1.x) {
                 Servo2.setPosition(Servo2.getPosition() + .001);
                 telemetry.addData("Servo2 Position", Servo2.getPosition());
@@ -144,5 +169,31 @@ public class Servo_Test extends LinearOpMode {
             }
              */
         }
+    }
+    private void initVuforia() {
+        /*
+         * Configure Vuforia by creating a Parameter object, and passing it to the Vuforia engine.
+         */
+        VuforiaLocalizer.Parameters parameters = new VuforiaLocalizer.Parameters();
+
+        parameters.vuforiaLicenseKey = VUFORIA_KEY;
+        parameters.cameraName = hardwareMap.get(WebcamName.class, "Webcam 1");
+
+        //  Instantiate the Vuforia engine
+        vuforia = ClassFactory.getInstance().createVuforia(parameters);
+
+        // Loading trackables is not necessary for the TensorFlow Object Detection engine.
+    }
+
+    /**
+     * Initialize the TensorFlow Object Detection engine.
+     */
+    private void initTfod() {
+        int tfodMonitorViewId = hardwareMap.appContext.getResources().getIdentifier(
+                "tfodMonitorViewId", "id", hardwareMap.appContext.getPackageName());
+        TFObjectDetector.Parameters tfodParameters = new TFObjectDetector.Parameters(tfodMonitorViewId);
+        tfodParameters.minResultConfidence = 0.8f;
+        tfod = ClassFactory.getInstance().createTFObjectDetector(tfodParameters, vuforia);
+        tfod.loadModelFromAsset(TFOD_MODEL_ASSET, LABEL_FIRST_ELEMENT, LABEL_SECOND_ELEMENT);
     }
 }

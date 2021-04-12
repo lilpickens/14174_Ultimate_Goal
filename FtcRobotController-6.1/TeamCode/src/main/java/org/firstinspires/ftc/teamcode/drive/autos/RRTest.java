@@ -48,6 +48,7 @@ public class RRTest extends LinearOpMode {
         robot.armOut.setPosition(robot.armUp);
         robot.kicker.setPosition(robot.kickerIn);
         robot.aim.setPosition(robot.aimPower + 0.02);
+        robot.camServo.setPosition(robot.camLeft);
 
         initVuforia();
         initTfod();

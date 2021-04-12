@@ -319,11 +319,13 @@ public class AugmentedTeleOp extends LinearOpMode {
             }
 
             //flywheel
+
             if (gamepad2.right_trigger > 0.1 && !gamepad2.a) {
-                if (!gamepad2.dpad_right) {robot.flyWheel.setPower(0.95 * (13.5/drive.batteryVoltageSensor.getVoltage()));} else {robot.flyWheel.setPower(0.79 * (12.9/drive.batteryVoltageSensor.getVoltage()));};
+                if (!gamepad2.dpad_right) {robot.flyWheel.setPower(Range.clip((0.95 * (13.5/drive.batteryVoltageSensor.getVoltage())), -1, 1));} else {robot.flyWheel.setPower(0.79 * (12.9/drive.batteryVoltageSensor.getVoltage()));}
             } else if (gamepad2.a) {
                 robot.flyWheel.setPower(-0.1);
             } else {robot.flyWheel.setPower(0);};
+
 
             //collection and transfer
             if (gamepad2.a) {robot.collection.setPower(-1); robot.transfer.setPower(-1); robot.transferServo.setPower(0.7);}

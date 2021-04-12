@@ -44,7 +44,8 @@ public class redInner extends LinearOpMode {
         robot.pincher.setPosition(robot.pinched);
         robot.armOut.setPosition(robot.armUp);
         robot.kicker.setPosition(robot.kickerIn);
-        robot.aim.setPosition(robot.aimPower + 0.02);
+        robot.aim.setPosition(robot.aimPower+0.2);
+        robot.camServo.setPosition(robot.camRight);
 
         initVuforia();
         initTfod();
@@ -58,7 +59,7 @@ public class redInner extends LinearOpMode {
         telemetry.update();
 
         SampleMecanumDrive drive = new SampleMecanumDrive(hardwareMap);
-        Pose2d startPose = new Pose2d(-63, 25, Math.toRadians(0));
+        Pose2d startPose = new Pose2d(-63, -25, Math.toRadians(0));
         drive.setPoseEstimate(startPose);
         drive.update();
 
@@ -77,7 +78,7 @@ public class redInner extends LinearOpMode {
                 .addDisplacementMarker(() -> {
                     robot.flyWheel.setPower(0.82 * (13/drive.batteryVoltageSensor.getVoltage()));
                 })
-                .splineToLinearHeading(new Pose2d(-11,-14, Math.toRadians(2)), Math.toRadians(0))
+                .splineToLinearHeading(new Pose2d(-7,0, Math.toRadians(5)), Math.toRadians(0))
                 .addDisplacementMarker(() -> {
                     robot.kicker.setPosition(robot.kickerOut);
                 })
@@ -87,7 +88,7 @@ public class redInner extends LinearOpMode {
                 .addDisplacementMarker(() -> {
                     robot.kicker.setPosition(robot.kickerIn);
                 })
-                .lineToConstantHeading(new Vector2d(-10.5, -20.5))
+                .lineToConstantHeading(new Vector2d(-6.5, -6.5))
                 .addDisplacementMarker(() -> {
                     robot.kicker.setPosition(robot.kickerOut);
                 })
@@ -97,7 +98,7 @@ public class redInner extends LinearOpMode {
                 .addDisplacementMarker(() -> {
                     robot.kicker.setPosition(robot.kickerIn);
                 })
-                .lineToConstantHeading(new Vector2d(-10, -28.5)) //24.75 //27.75 //29
+                .lineToConstantHeading(new Vector2d(-6, -16)) //-28.5
                 .addDisplacementMarker(() -> {
                     robot.kicker.setPosition(robot.kickerOut);
                 })
@@ -110,7 +111,7 @@ public class redInner extends LinearOpMode {
 
                     robot.kicker.setPosition(robot.kickerIn);
                 })
-                .lineToLinearHeading(new Pose2d(18, -51, Math.toRadians(180)))
+                .lineToLinearHeading(new Pose2d(9, -51, Math.toRadians(180)))
                 .addDisplacementMarker(() -> {
                     robot.armOut.setPosition(robot.armDown);
                     robot.pincher.setPosition(robot.unPinched);
@@ -121,7 +122,7 @@ public class redInner extends LinearOpMode {
                 .addDisplacementMarker(() -> {
                     robot.armOut.setPosition(robot.armUp);
                 })
-                .lineTo(new Vector2d(12, -30))
+                .lineTo(new Vector2d(12, -12))
                 .build();
 
         //SINGLE STACK TRAJECTORIES
@@ -130,7 +131,7 @@ public class redInner extends LinearOpMode {
                     robot.flyWheel.setPower(0);
                     robot.kicker.setPosition(robot.kickerIn);
                 })
-                .splineTo(new Vector2d(37, -24), Math.toRadians(0)) //36 ,18
+                .lineToLinearHeading(new Pose2d(33, -24, Math.toRadians(180))) //36 ,18
                 .addDisplacementMarker(() -> {
                     robot.armOut.setPosition(robot.armDown);
                 })
@@ -153,9 +154,12 @@ public class redInner extends LinearOpMode {
                     robot.flyWheel.setPower(0);
                     robot.kicker.setPosition(robot.kickerIn);
                 })
-                .splineTo(new Vector2d(55, -48), Math.toRadians(180))
+                .lineToLinearHeading(new Pose2d(49, -48, Math.toRadians(180)))
                 .build();
         Trajectory traj45 = drive.trajectoryBuilder(traj44.end())
+                .addDisplacementMarker(() -> {
+                    robot.armOut.setPosition(robot.armUp);
+                })
                 .lineTo(new Vector2d(10, -13))
                 .build();
         /*
@@ -271,10 +275,10 @@ public class redInner extends LinearOpMode {
             //drive.followTrajectory(trajpark);
             drive.followTrajectory(traj1);
             //robot.kicker.setPosition(robot.kickerOut);
-            sleep(500);
+            sleep(800);
             drive.followTrajectory(traj2);
             //robot.kicker.setPosition(robot.kickerOut);
-            sleep(500);
+            sleep(600);
             drive.followTrajectory(traj3);
             //robot.kicker.setPosition(robot.kickerOut);
             sleep(500);

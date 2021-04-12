@@ -46,6 +46,7 @@ public class blueOuter extends LinearOpMode {
         robot.armOut.setPosition(robot.armUp);
         robot.kicker.setPosition(robot.kickerIn);
         robot.aim.setPosition(robot.aimGoal);
+        robot.camServo.setPosition(robot.camRight);
 
         initVuforia();
         initTfod();
@@ -97,7 +98,7 @@ public class blueOuter extends LinearOpMode {
                 .addDisplacementMarker(8, () -> {
                     robot.flyWheel.setPower(0.97);
                 })
-                .splineToLinearHeading(new Pose2d(-10, 50, Math.toRadians(-2)), Math.toRadians(0)) //move behind the white line and shoot for the white
+                .splineToLinearHeading(new Pose2d(-10, 50, Math.toRadians(-6)), Math.toRadians(0)) //move behind the white line and shoot for the white
                 .build();
 
         //robot.kicker.setPosition(robot.kickerOut);
@@ -177,7 +178,7 @@ public class blueOuter extends LinearOpMode {
                 .addDisplacementMarker(40, () -> {
                     robot.flyWheel.setPower(0.97);
                 })
-                .lineToLinearHeading(new Pose2d(-13, 55, Math.toRadians(-5))) //move behind the white line and shoot for the white
+                .lineToLinearHeading(new Pose2d(-13, 55, Math.toRadians(-6))) //move behind the white line and shoot for the white
                 .build();
 
         //robot.kicker.setPosition(robot.kickOut);
@@ -197,8 +198,7 @@ public class blueOuter extends LinearOpMode {
                 .addDisplacementMarker(() -> {
                     robot.flyWheel.setPower(0);
                 })
-                .lineToLinearHeading(new Pose2d(7,  55, Math.toRadians(0))) //park on white line
-                .lineToConstantHeading(new Vector2d(7, 58)) //scoot over
+                .lineToLinearHeading(new Pose2d(7,  52, Math.toRadians(0))) //park on white line //55
                 .build();
 
 
@@ -244,6 +244,7 @@ public class blueOuter extends LinearOpMode {
         tfod.deactivate();
 
         if (ringState == 0) {
+            sleep(7000);
             drive.followTrajectory(traj01);
             sleep(500);
             robot.pincher.setPosition(robot.unPinched);
@@ -251,14 +252,15 @@ public class blueOuter extends LinearOpMode {
             drive.followTrajectory(traj02);
             sleep(5000);
             drive.followTrajectory(traj03);
+            sleep(800);
             robot.kicker.setPosition(robot.kickerOut);
             sleep(500);
             robot.kicker.setPosition(robot.kickerIn);
-            sleep(500);
+            sleep(800);
             robot.kicker.setPosition(robot.kickerOut);
             sleep(500);
             robot.kicker.setPosition(robot.kickerIn);
-            sleep(500);
+            sleep(800);
             robot.kicker.setPosition(robot.kickerOut);
             sleep(500);
             robot.kicker.setPosition(robot.kickerIn);
@@ -267,19 +269,21 @@ public class blueOuter extends LinearOpMode {
             stop();
         }
         else if (ringState == 1) {
+            sleep(7000);
             drive.followTrajectory(traj11);
             sleep(500);
             robot.pincher.setPosition(robot.unPinched);
             sleep(500);
             drive.followTrajectory(traj12);
+            sleep(800);
             robot.kicker.setPosition(robot.kickerOut);
             sleep(500);
             robot.kicker.setPosition(robot.kickerIn);
-            sleep(500);
+            sleep(800);
             robot.kicker.setPosition(robot.kickerOut);
             sleep(500);
             robot.kicker.setPosition(robot.kickerIn);
-            sleep(500);
+            sleep(800);
             robot.kicker.setPosition(robot.kickerOut);
             sleep(500);
             robot.kicker.setPosition(robot.kickerIn);
@@ -294,14 +298,15 @@ public class blueOuter extends LinearOpMode {
             robot.pincher.setPosition(robot.unPinched);
             sleep(500);
             drive.followTrajectory(traj42);
+            sleep(800);
             robot.kicker.setPosition(robot.kickerOut);
             sleep(500);
             robot.kicker.setPosition(robot.kickerIn);
-            sleep(500);
+            sleep(800);
             robot.kicker.setPosition(robot.kickerOut);
             sleep(500);
             robot.kicker.setPosition(robot.kickerIn);
-            sleep(500);
+            sleep(800);
             robot.kicker.setPosition(robot.kickerOut);
             sleep(500);
             robot.kicker.setPosition(robot.kickerIn);

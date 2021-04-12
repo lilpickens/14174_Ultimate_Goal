@@ -21,6 +21,8 @@ import static org.firstinspires.ftc.teamcode.drive.DriveConstants.MAX_RPM;
 import static org.firstinspires.ftc.teamcode.drive.DriveConstants.RUN_USING_ENCODER;
 import static org.firstinspires.ftc.teamcode.drive.DriveConstants.rpmToVelocity;
 
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
+
 /*
  * Op mode for computing kV, kStatic, and kA from various drive routines. For the curious, here's an
  * outline of the procedure:
@@ -33,6 +35,7 @@ import static org.firstinspires.ftc.teamcode.drive.DriveConstants.rpmToVelocity;
  */
 @Config
 @Autonomous(group = "drive")
+@Disabled
 public class AutomaticFeedforwardTuner extends LinearOpMode {
     public static final double MAX_POWER = 0.7;
     public static final double DISTANCE = 60; // in

@@ -7,7 +7,7 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
 import org.firstinspires.ftc.teamcode.drive.SampleMecanumDrive;
-
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 /*
  * Op mode for preliminary tuning of the follower PID coefficients (located in the drive base
  * classes). The robot drives back and forth in a straight line indefinitely. Utilization of the
@@ -26,6 +26,7 @@ import org.firstinspires.ftc.teamcode.drive.SampleMecanumDrive;
  */
 @Config
 @Autonomous(group = "drive")
+@Disabled
 public class BackAndForth extends LinearOpMode {
 
     public static double DISTANCE = 50;

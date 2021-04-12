@@ -45,6 +45,7 @@ public class redOuter extends LinearOpMode {
         robot.armOut.setPosition(robot.armUp);
         robot.kicker.setPosition(robot.kickerIn);
         robot.aim.setPosition(robot.aimGoal);
+        robot.camServo.setPosition(robot.camLeft);
 
         initVuforia();
         initTfod();
@@ -78,7 +79,7 @@ public class redOuter extends LinearOpMode {
         //NO RING TRAJECTORIES
         Trajectory traj01 = drive.trajectoryBuilder(startPose)
                 .lineToSplineHeading(new Pose2d(-34, -55, Math.toRadians(0))) //move towards the outside of the field to avoid the other robot
-                .splineToSplineHeading(new Pose2d(-3, -55, Math.toRadians(-90)), Math.toRadians(0)) //move forward and spin around to drop off the wobble goal
+                .splineToSplineHeading(new Pose2d(4, -55, Math.toRadians(-180)), Math.toRadians(0)) //move forward and spin around to drop off the wobble goal
                 .addDisplacementMarker(() -> {
                     robot.armOut.setPosition(robot.armDown); //drop the wobble goal arm
                 })
@@ -89,9 +90,6 @@ public class redOuter extends LinearOpMode {
                 .addDisplacementMarker(1, () -> {
                     robot.armOut.setPosition(robot.armUp);
                 })
-                .addDisplacementMarker(40, () -> {
-                    robot.flyWheel.setPower(0.95);
-                })
                 .splineToLinearHeading(new Pose2d(-55, -55, Math.toRadians(0)), Math.toRadians(0))
                 .build();
 
@@ -99,7 +97,7 @@ public class redOuter extends LinearOpMode {
                 .addDisplacementMarker(8, () -> {
                     robot.flyWheel.setPower(0.97);
                 })
-                .splineToLinearHeading(new Pose2d(-6, -55, Math.toRadians(15)), Math.toRadians(0)) //move behind the white line and shoot for the white
+                .splineToLinearHeading(new Pose2d(-11, -55, Math.toRadians(17)), Math.toRadians(0)) //move behind the white line and shoot for the white
                 .build();
 
         //robot.kicker.setPosition(robot.kickerOut);
@@ -118,14 +116,14 @@ public class redOuter extends LinearOpMode {
                 .addDisplacementMarker(() -> {
                     robot.flyWheel.setPower(0);
                 })
-                .lineTo(new Vector2d(14, -45))
+                .lineToLinearHeading(new Pose2d(10, -39, Math.toRadians(0)))
                 .build();
 
         //SINGLE STACK TRAJECTORIES
 
         Trajectory traj11 = drive.trajectoryBuilder(startPose)
                 .lineToSplineHeading(new Pose2d(-34, -55, Math.toRadians(0))) //move towards the outside of the field to avoid the other robot
-                .splineToSplineHeading(new Pose2d(38, -55, Math.toRadians(0)), Math.toRadians(0)) //move forward and spin around to drop off the wobble goal
+                .splineToSplineHeading(new Pose2d(32, -55, Math.toRadians(0)), Math.toRadians(0)) //move forward and spin around to drop off the wobble goal
                 .addDisplacementMarker(() -> {
                     robot.armOut.setPosition(robot.armDown); //drop the wobble goal arm
                 })
@@ -139,7 +137,7 @@ public class redOuter extends LinearOpMode {
                 .addDisplacementMarker(40, () -> {
                     robot.flyWheel.setPower(0.95);
                 })
-                .splineToLinearHeading(new Pose2d(-6, -55, Math.toRadians(15)), Math.toRadians(0)) //move behind the white line and shoot for the white
+                .splineToLinearHeading(new Pose2d(-11, -55, Math.toRadians(18)), Math.toRadians(0)) //move behind the white line and shoot for the white
                 .build();
 
         //robot.kicker.setPosition(robot.kickOut);
@@ -159,13 +157,13 @@ public class redOuter extends LinearOpMode {
                 .addDisplacementMarker(() -> {
                     robot.flyWheel.setPower(0);
                 })
-                .lineToLinearHeading(new Pose2d(14,  -55, Math.toRadians(0))) //park on white line
+                .lineToLinearHeading(new Pose2d(10,  -55, Math.toRadians(0))) //park on white line
                 .build();
 
         //QUAD STACK TRAJECTORIES
         Trajectory traj41 = drive.trajectoryBuilder(startPose)
-                .lineToSplineHeading(new Pose2d(-34, -55, Math.toRadians(0))) //move towards the outside of the field to avoid the other robot
-                .splineToSplineHeading(new Pose2d(49, -55, Math.toRadians(-90)), Math.toRadians(0)) //move forward and spin around to drop off the wobble goal
+                .lineToSplineHeading(new Pose2d(-34, -50, Math.toRadians(0))) //move towards the outside of the field to avoid the other robot
+                .splineToSplineHeading(new Pose2d(49, -52, Math.toRadians(-150)), Math.toRadians(0)) //move forward and spin around to drop off the wobble goal
                 .addDisplacementMarker(() -> {
                     robot.armOut.setPosition(robot.armDown); //drop the wobble goal arm
                 })
@@ -180,7 +178,7 @@ public class redOuter extends LinearOpMode {
                     robot.flyWheel.setPower(0.95);
                 })
                 //.splineTo(new Vector2d(0, 0), Math.toRadians(0)) //move toward blue wall
-                .splineToLinearHeading(new Pose2d(-6, -55, Math.toRadians(-15)), Math.toRadians(0)) //move behind the white line and shoot for the white
+                .lineToLinearHeading(new Pose2d(-8, -52, Math.toRadians(17))) //move behind the white line and shoot for the white
                 .build();
 
         //robot.kicker.setPosition(robot.kickOut);
@@ -200,7 +198,7 @@ public class redOuter extends LinearOpMode {
                 .addDisplacementMarker(() -> {
                     robot.flyWheel.setPower(0);
                 })
-                .lineToLinearHeading(new Pose2d(14,  -55, Math.toRadians(0))) //park on white line
+                .lineToLinearHeading(new Pose2d(10,  -55, Math.toRadians(0))) //park on white line
                 .build();
 
 
@@ -247,11 +245,13 @@ public class redOuter extends LinearOpMode {
 
         if (ringState == 0) {
             drive.followTrajectory(traj01);
+            sleep(500);
             robot.pincher.setPosition(robot.unPinched);
             sleep(500);
             drive.followTrajectory(traj02);
-            sleep(5000);
+            sleep(8000);
             drive.followTrajectory(traj03);
+            sleep(800);
             robot.kicker.setPosition(robot.kickerOut);
             sleep(500);
             robot.kicker.setPosition(robot.kickerIn);
@@ -272,6 +272,7 @@ public class redOuter extends LinearOpMode {
             robot.pincher.setPosition(robot.unPinched);
             sleep(500);
             drive.followTrajectory(traj12);
+            sleep(500);
             robot.kicker.setPosition(robot.kickerOut);
             sleep(500);
             robot.kicker.setPosition(robot.kickerIn);
