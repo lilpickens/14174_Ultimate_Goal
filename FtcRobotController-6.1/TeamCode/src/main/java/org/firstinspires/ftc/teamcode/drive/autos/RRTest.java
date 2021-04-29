@@ -79,7 +79,7 @@ public class RRTest extends LinearOpMode {
 
         Trajectory traj1 = drive.trajectoryBuilder(startPose /*traj0.end()*/)
                 .addDisplacementMarker(() -> {
-                    robot.flyWheel.setPower(0.82 * (13/drive.batteryVoltageSensor.getVoltage()));
+                    robot.flyWheel.setPower(0.84 * (13/drive.batteryVoltageSensor.getVoltage()));
                 })
                 .splineToLinearHeading(new Pose2d(-11,14, Math.toRadians(-1)), Math.toRadians(0))
                 .addDisplacementMarker(() -> {
