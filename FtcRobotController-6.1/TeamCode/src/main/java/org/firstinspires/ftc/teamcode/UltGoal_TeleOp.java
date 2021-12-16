@@ -183,10 +183,10 @@ public class UltGoal_TeleOp extends LinearOpMode {
             forward = -gamepad1.left_stick_y;
             right = gamepad1.left_stick_x;
             clockwise = gamepad1.right_stick_x;
-            front_left.setPower(0.25 * Range.clip(forward + clockwise + right, -1, 1));
-            front_right.setPower(0.25 * Range.clip(forward - clockwise - right, -1, 1));
-            back_left.setPower(0.25 * Range.clip(forward + clockwise - right, -1, 1));
-            back_right.setPower(0.25 * Range.clip(forward - clockwise + right, -1, 1));
+            front_left.setPower(Range.clip(forward + clockwise + right, -1, 1));
+            front_right.setPower(Range.clip(forward - clockwise - right, -1, 1));
+            back_left.setPower(Range.clip(forward + clockwise - right, -1, 1));
+            back_right.setPower(Range.clip(forward - clockwise + right, -1, 1));
             
             if (Math.abs(gamepad1.left_stick_y) > 0.01) {
                 if (gamepad1.left_stick_y > 0) {
